@@ -1,0 +1,78 @@
+<html lang="es">
+    <head>
+        <%- include('../partials/head') %>
+    </head>
+    <body>
+        <br>
+        <div class="login-container">
+            <div class="box-header">
+                <br>
+                <h4 class="titulo">Modificar contraseña</h4>
+                <hr>
+            </div>
+            <div class="box-login">
+                <form id="form-newpass">
+                    <% if(error) { %>
+                        <p style="color: red; font-size: small"><%= error %></p>
+                    <% } %>  
+                    <div class="mb-3">
+                        <label for="pass" class="form-label">Contraseña actual</label>
+                        <input type="password" autocomplete="off" id="pass" class="form-control" name="pass" required>
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <label for="newPass" class="form-label">Nueva contraseña</label>
+                        <input type="password" autocomplete="off" id="newPass" class="form-control" name="newPass" required>
+                    </div>
+                    <br>
+                    <div class="mb-3">
+                        <label for="newPass2" class="form-label">Repetir nueva contraseña</label>
+                        <input type="password" autocomplete="off" id="newPass2" class="form-control" name="newPass2" required>
+                    </div>
+                    <br>
+                    <div style="text-align:center">
+                        <a href="/tse" class="boton boton-secundario">Volver</a>
+                        <button onclick="comprobarCamposYNuevaPass()" class="boton" type="button">
+                            Guardar cambios
+                        </button>
+                        <div id="modal-newpass" class="modal">
+                            <div class="modal-content">
+                                <div class="boton-cerrar">
+                                    <button type="button" onclick="cerrarModal('modal-newpass')" class="close">&times;</button>
+                                </div>
+                                <div style="text-align: left;">
+                                    <p>Se modificará su contraseña y no habrá vuelta atrás.</p>
+                                    <p>¿Desea continuar?</p>
+                                </div>
+                                <div style="text-align: center;">
+                                    <button type="button" onclick="actualizarContrasenia()" class="boton boton-confirmar">Confirmar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>  
+        </div>
+        <%- include('../partials/footer'); %>
+        <script src="/js/script.js"></script>
+        <script>
+
+           
+
+            function comprobarCamposYNuevaPass(){
+                let form = new FormData(document.getElementById('form-newpass'))
+                let body = {
+                    pass: form.get('pass'),
+                    newPass: form.get('newPass'),
+                    newPass2: form.get('newPass2')
+                }
+                
+                if(body.pass&&body.newPass&&body.newPass2) {
+                    abrirModal('modal-newpass')
+                } else {
+                    mostrarError('¡Campos incompletos!')
+                }
+            }
+        </script>
+    </body>
+</html>

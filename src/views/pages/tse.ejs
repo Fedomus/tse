@@ -1,0 +1,132 @@
+<html lang="es">
+    <head>
+        <%- include('../partials/head') %>
+    </head>
+    <body>
+        <% if(tipo == 2 || tipo == 1) { %>
+            <%- include('../partials/navbarMayor'); %>
+        <% } %>
+        <div class="t-container">
+            <div class="off-canvas" id="off-canvas-nav">
+                <div class="oc-btnclose-container">
+                    <button onclick="closeOffcanvas();" type="button" class="oc-btnclose">
+                        &times;
+                    </button>
+                </div>
+                <ul class="t-tabs">
+                    <li class="t-tab"><i class="fa-solid fa-map"></i>&nbsp;&nbsp;&nbsp;Mapa</li> 
+                    <li class="t-tab"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;&nbsp;Hitos</li>  
+                    <% if(tipo != 4) { %>
+                        <li class="t-tab"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;&nbsp;Nuevo</li> 
+                    <% } %>
+                    <li class="t-tab"><i class="fa-solid fa-chart-simple"></i>&nbsp;&nbsp;&nbsp;Estadísticas</li>
+                    <% if(tipo != 4) { %>
+                        <li class="t-tab"><i class="fa-solid fa-hand-pointer"></i>&nbsp;&nbsp;&nbsp;Indicadores</li>  
+                    <% } %>
+                    <li class="t-tab"><i class="fa-solid fa-circle-info"></i>&nbsp;&nbsp;&nbsp;Info</li>  
+                </ul>
+            </div>
+            <main class="page-wrap">
+                <%- include('../partials/navbar', {
+                    titulo: 'Tablero de seguimiento estratégico'
+                }) %>
+                <section class="main-content">
+                    <ul class="t-contents">
+                        <li class="t-content">
+                            <div class="box-header">
+                                <br>
+                                <h4 class="titulo">Mapa del Plan Estratégico</h4>
+                                <hr>
+                            </div>
+                            <div class="box-mapa" id="mapa">
+                                <div id="ejes-container" class="ejes"></div>
+                            </div>
+                        </li>
+                        <li class="t-content">
+                            <%- include('../partials/hitos') %>
+                        </li>
+                        <% if(tipo != 4) { %>
+                            <li class="t-content">
+                                <%- include('../partials/nuevoHito') %>
+                            </li>
+                        <% } %>
+                        <li class="t-content">
+                            <div class="box-header">
+                              <br>
+                              <h4 class="titulo">Análisis de datos de gestión</h4>
+                              <hr>
+                            </div>
+                          </li>
+                          <% if(tipo != 4) { %>
+                          <li class="t-content">
+                            <div class="box-header">
+                              <br>
+                              <h4 class="titulo">Indicadores de gestión</h4>
+                              <hr>
+                            </div>
+                            <p style="padding-left: 20px;">Próximamente a desarrollar con cada gerencia.</p>
+                          </li>	
+                          <% } %>
+                          <li class="t-content">
+                            <%- include('../partials/info') %>
+                          </li>
+                        </li>
+                    </ul>
+                </section>
+            </main>
+        </div>
+        <script src="/js/script.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", async () => {
+        
+                loadNavbar()
+            
+                easyTabs()
+    
+                closeOffcanvas();
+    
+                paginarTarjetas(await obtenerTarjetas())
+    
+                $('#filtro-hashtags').select2({
+                theme:"bootstrap"
+                })
+                
+                $('#hito-hashtags').select2({
+                theme:"bootstrap"
+                })
+                
+                fetch('/api/sessiondata')
+                .then(response => response.json())
+                .then(result => {
+                    sessionStorage.setItem('area', result.area)
+                    if(result.area != 0) {
+                        fetch('/api/pegi2')
+                        .then(response => response.json())
+                        .then(result => {
+                            crearSelects(result, selectFormEjes, selectFormObjetivos, selectFormLineas, selectFormPlanesdeaccion)
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                    }
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+                
+                fetch('/api/pegi')
+                .then(response => response.json())
+                .then(result => {
+                    crearSelects(result, selectFiltrosEjes, selectFiltrosObjetivos, selectFiltrosLineas, selectFiltrosPlanesdeaccion)
+                    crearMapa(result)
+                })
+                .catch(err => {
+                    console.error(err);
+                })
+
+                
+            });
+        </script>
+        <%- include('../partials/footer') %> 
+    </body>
+</html>

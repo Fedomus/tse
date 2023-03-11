@@ -1,0 +1,55 @@
+<div class="box-header">
+    <br>
+    <h4 class="titulo">Historial de hitos de gestión</h4>
+    <hr>
+</div>
+<div class="box-tarjetas">
+    <div class="filtro">
+        <div class="box-filtros">
+            <div class="mb-3">
+                <label for="filtro-eje" class="form-label">1. Eje</label>
+                <select id="select-filtros-ejes" class="form-select form-select-filtros" name="filtro-eje">
+                    <option></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="filtro-objetivo" class="form-label">2. Objetivo estratégico</label>
+                <select id="select-filtros-objetivos" class="form-select form-select-filtros" name="filtro-objetivo">
+                    <option></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="filtro-linea" class="form-label">3. Línea  estratégica</label>
+                <select id="select-filtros-lineas" class="form-select form-select-filtros" name="filtro-linea">
+                    <option></option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="filtro-plandeaccion" class="form-label">4. Plan de acción</label>
+                <select id="select-filtros-planesdeaccion" class="form-select form-select-filtros" name="filtro-plandeaccion">
+                    <option></option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="box-hashtags">
+        <label for="select-hashtags" class="form-label">Palabras clave</label>
+        <select name ="select-hashtags" class="form-select" id="filtro-hashtags" onchange="agregarTag(event, 'filtro-tag-container', 'filtro-tag')">
+            <option value selected></option>
+            <% for(let t of tags) { %>
+            <option value="<%= t.tagsnombre %>"><%= t.tagsnombre %></option>
+            <% } %> 
+        </select>
+        <div class="tag-container" id="filtro-tag-container"></div>
+    </div>
+    <br>
+    <div style="text-align: center;">
+        <button type="button" onclick="busqueda()" class="boton" id="">Buscar</button>
+    </div>
+    <br>
+    <br>
+    <div class="box-pagination">
+        <div class="busqueda-pagination" id="pagination-container"></div>
+    </div>
+    <div class="tarjetas" id="tarjetas"></div>
+</div>

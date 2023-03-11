@@ -1,0 +1,6 @@
+node_modules
+.env
+server.key
+server.cert
+fakeCards.json
+bundle.js

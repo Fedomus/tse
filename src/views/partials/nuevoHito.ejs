@@ -1,0 +1,126 @@
+
+<div class="box-header">
+    <br>
+    <h4 class="titulo">Formulario de declaración de nuevo hito</h4>
+    <hr>
+</div>
+<div class="box-form">
+    <br>
+    <form onsubmit="agregarTarjeta(event)" id="form-nuevatarjeta" name="form-nuevatarjeta">
+        <div class="mb-3">
+            <label for="eje" class="form-label">1. Eje *</label>
+            <select id="form-nuevohito-ejes" class="form-select" name="eje" required>
+                <option selected value class="select-option"></option>
+            </select>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="objetivo" class="form-label">2. Objetivo estratégico *</label>
+            <select id="form-nuevohito-objetivos" class="form-select" name="objetivo" required>
+            </select>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="linea" class="form-label">3. Línea  estratégica *</label>
+            <select id="form-nuevohito-lineas" class="form-select" name="linea" required>
+            </select>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="plandeaccion" class="form-label">4. Plan de acción *</label>
+            <select id="form-nuevohito-planesdeaccion" class="form-select" name="plandeaccion" required>
+            </select>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título *</label>
+            <input type="text" class="form-control" id="nuevatarjeta-titulo" name="titulo" required>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="cuepro" class="form-label">Cuerpo <span style="font-size:small;">(máx 500 caracteres)</span> *</label>
+            <textarea name="cuerpo" class="form-control" id="nuevatarjeta-cuerpo" cols="30" rows="10" required></textarea>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="expediente" class="form-label">Expediente</label>
+            <input type="text" class="form-control" name="expediente">
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="actoadministrativo" class="form-label">Acto administrativo (dispo o reso)</label>
+            <input type="text" class="form-control" name="actoadministrativo">
+        </div>
+        <br>
+        <label for="tags" class="form-label">Palabras clave *</label>
+        <select name ="tags" class="form-select" id="hito-hashtags" onchange="agregarTag(event, 'nuevohito-tags', 'hito-tag')" required>
+            <option value selected></option>
+            <% for(let t of tags) { %>
+                <option value="<%= t.tagsnombre %>"><%= t.tagsnombre %></option>
+            <% } %> 
+        </select>
+        <div class="tag-container" id="nuevohito-tags"></div>
+        <br>
+        <p class="small">
+            * Los campos con un asterisco deben completarse obligatoriamente.
+        </p>
+        <div style="text-align: center;">
+            <button type="button" class="boton boton-confirmar" onclick="comprobarCamposYAbrirModal()">Aceptar</button>
+        </div>
+        <div id="modal-nuevatarjeta" class="modal">
+            <div class="modal-content">
+                <div class="boton-cerrar">
+                    <button type="button" onclick="cerrarModal('modal-nuevatarjeta')" class="close">&times;</button>
+                </div>
+                <div>
+                    <p class="small">
+                        Se enviará la tarjeta al área de Gerencia General para su evaluación. 
+                    </p>
+                    <p class="small">
+                        Ante cualquier consulta, puede dirigirse a <i>gerencia.general@incaa.gov.ar</i>.
+                    </p>
+                    <p class="small">
+                        ¿Desea continuar?
+                    </p>
+                </div>
+                <div style="text-align: center;">
+                    <input type="submit" id="btn-nuevatarjeta" class="boton boton-confirmar" value="Confirmar y enviar">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    function comprobarCamposYAbrirModal() {
+
+        let form = new FormData(document.getElementById('form-nuevatarjeta'));
+
+        let body = {
+            eje: document.getElementById('form-nuevohito-ejes').value,
+            objetivo: document.getElementById('form-nuevohito-objetivos').value,
+            linea: document.getElementById('form-nuevohito-lineas').value,
+            plandeaccion: document.getElementById('form-nuevohito-planesdeaccion').value,
+            expediente: form.get('expediente'),
+            actoadministrativo: form.get('actoadministrativo'),
+            titulo: document.getElementById('nuevatarjeta-titulo').value,
+            cuerpo: document.getElementById('nuevatarjeta-cuerpo').value
+        }
+
+        let tags = [];
+
+        let tagContainer = document.getElementById('nuevohito-tags')
+
+        for (const child of tagContainer.children) {
+            tags.push(child.innerHTML)
+        }
+
+        body.tags = tags.join(',')
+
+        if(body.eje && body.objetivo && body.linea && body.plandeaccion && body.tags) {
+            abrirModal('modal-nuevatarjeta')
+        } else {
+            mostrarError('¡Campos incompletos!')
+        }
+        
+    }
+</script>

@@ -1,0 +1,28 @@
+<br>
+<div class="login-container">
+    <div class="box-header">
+        <br>
+        <h4 class="titulo">Iniciar sesión</h4>
+        <hr>
+    </div>
+    <div class="box-login">
+        <form action="/auth/login" method="POST">
+            <% if(error) { %>
+                <p style="color: red; font-size: small"><%= error %></p>
+            <% } %>  
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre de usuario</label>
+                <input type="text" class="form-control" name="nombre" required>
+            </div>
+            <br>
+            <div class="mb-3">
+                <label for="contrasenia" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" name="contrasenia" required>
+            </div>
+            <br>
+            <div style="text-align:center">
+                <input class="boton" type="submit" value="Ingresar"/>
+            </div>
+        </form>
+    </div>  
+</div>

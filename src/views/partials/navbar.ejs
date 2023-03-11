@@ -1,0 +1,22 @@
+<nav class="barra">
+    <div class="left-contenedor">
+        <button type="button" class="open-menu" id="open-menu"><i class="fa-solid fa-bars fa-xl"></i></button>
+        <div>
+            <b class="icono-desktop"><%= titulo %></b>
+            <b class="icono-mobile">TSE</b>
+        </div>
+    </div>
+    <div class="dropdown-contenedor">
+        <a class="dropdown-btn click-dropdown">
+            <i class="fa-solid fa-user fa-xl" style="padding: 10px;"></i>
+            <%= usuario %> 
+            <i class="fa-solid fa-caret-down" style="padding: 10px;"></i>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end">
+            <ul>
+                <li><a href="/tse/newpass">Modificar contraseña</a></li>
+                <li><a href="/auth/logout">Salir</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>

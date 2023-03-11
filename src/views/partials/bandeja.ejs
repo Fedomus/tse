@@ -1,0 +1,177 @@
+<div class="box-header">
+    <br>
+    <h4 class="titulo">Tabla de Hitos en Evaluación</h4>
+    <hr>
+</div>
+<div class="seccion-tabla">
+    <table class="display compact" id="tablatarjetas">
+        <thead>
+            <tr>
+                <th scope="col">Fecha</th>
+                <th scope="col">Área</th>
+                <th scope="col">Autor</th>
+                <th scope="col">Título</th>
+                <th scope="col">Ver</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if(tarjetas.length){ %> 
+                <% for(const t of tarjetas) { %> 
+                    <tr>
+                        <td><%= moment(t.tarjetasfecha).format('DD/MM/YYYY') %></td>
+                        <td><%= t.areasnombre %></td>
+                        <td><%= t.usuariosnombre %></td>
+                        <td><%= t.tarjetastitulo %></td>
+                        <td>
+                            <button type="button" class="boton-chico" onclick="abrirEditarHito('<%= t.idtarjetas %>')">
+                                Ver
+                            </button>
+                            <div id="modal-tarjetaEvaluandose-<%= t.idtarjetas %>" class="modal">
+                                <div class="modal-content" id="modal-content">
+                                    <div class="boton-cerrar">
+                                        <button type="button" onclick="cerrarModal('modal-tarjetaEvaluandose-<%= t.idtarjetas %>')" class="close">&times;</button>
+                                    </div>
+                                    <div class="card" id="tarjetaevaluandose-<%= t.idtarjetas %>">
+                                        <div class="card-body">
+                                            <p class="text-muted"><%= new Date(t.tarjetasfecha).toLocaleDateString() %></p>
+                                            <h5 class="card-title"><%=t.tarjetastitulo%></h5>
+                                            <p class="card-text"><%=t.tarjetascuerpo%></p>
+                                            <br>
+                                            <p class="text-muted small"><%= t.tarjetasexpediente ? '<b>Expediente:</b>' + item.tarjetasexpediente : ''%></p>
+                                            <p class="text-muted small"><%= t.tarjetasactoadministrativo ? '<b>Acto Administrativo:</b>' + item.tarjetasactoadministrativo : ''%></p> 
+                                            <p class="text-muted small"><b>Palabras clave: </b><%=t.tarjetastags%></p>
+                                            <p class="text-muted small"><b>Area: </b><%=t.areasnombre%></p>
+                                            <hr>
+                                            <p class="text-muted small"><b>Eje: </b><%=t.ejesnombre%></p>
+                                            <p class="text-muted small"><b>Objetivo estratégico: </b><%=t.objetivosnombre%></p>
+                                            <p class="text-muted small"><b>Línea estratégica: </b><%=t.lineasnombre%></p>
+                                            <p class="text-muted small"><b>Plan de acción: </b><%=t.planesdeaccionnombre%></p>
+                                        </div>
+                                    </div>
+                                    <div class="seccion-botones" id="seccion-botones-<%= t.idtarjetas %>">
+                                        <button type="button" onclick="abrirModal('modal-rechazarhito-<%= t.idtarjetas %>')" class="boton boton-rechazar">
+                                            Rechazar
+                                        </button>
+                                        <button type="button" onclick="cargarFormEdicion('<%= t.idtarjetas %>')" class="boton">
+                                            Editar
+                                        </button>
+                                        <button type="button" onclick="abrirModal('modal-aprobarhito-<%= t.idtarjetas %>')" class="boton boton-confirmar">
+                                            Aprobar
+                                        </button>
+                                    </div>
+                                    <div id="modal-rechazarhito-<%= t.idtarjetas %>" class="modal">
+                                        <div class="modal-content">
+                                            <div class="boton-cerrar">
+                                                <button type="button" onclick="cerrarModal('modal-rechazarhito-<%= t.idtarjetas %>')" class="close">&times;</button>
+                                            </div>
+                                            <p>El hito pasará a estado de 'rechazado'.</p>
+                                            <p>¿Desea continuar?</p>
+                                            <div style="text-align: center;">
+                                                <button type="button" onclick="rechazarHito('<%= t.idtarjetas %>')" class="boton boton-confirmar">Confirmar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="modal-aprobarhito-<%= t.idtarjetas %>" class="modal">
+                                        <div class="modal-content">
+                                            <div class="boton-cerrar">
+                                                <button type="button" onclick="cerrarModal('modal-aprobarhito-<%= t.idtarjetas %>')" class="close">&times;</button>
+                                            </div>
+                                            <p>El hito pasará a estado de 'aprobado'.</p>
+                                            <p>¿Desea continuar?</p>
+                                            <div style="text-align: center;">
+                                                <button type="button" onclick="aprobarHito('<%= t.idtarjetas %>')" class="boton boton-confirmar">Confirmar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <form onsubmit="guardarYAprobarHito(e, '<%= t.idtarjetas %>')" id="form-editarhito-<%= t.idtarjetas %>" class="noTiene">
+                                        <div class="mb-3">
+                                            <label for="titulo" class="form-label">Título</label>
+                                            <input type="text" value="<%= t.tarjetastitulo %>" id="form-titulo" class="form-control" name="titulo" required>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3">
+                                            <label for="cuepro" class="form-label">Cuerpo <span style="font-size:small;">(máx 500 caracteres)</span></label>
+                                            <textarea name="cuerpo" form="form-editarhito-<%= t.idtarjetas %>" class="form-control" id="form-cuerpo" cols="30" rows="10" required><%= t.tarjetascuerpo %></textarea>
+                                        </div>
+                                        <br>
+                                        <div class="mb-3">
+                                            <label for="expediente" class="form-label">Expediente</label>
+                                            <input type="text" value="<%= t.tarjetasexpediente %>" class="form-control" id="form-expediente" name="expediente">
+                                        </div>
+                                        <br>
+                                        <div class="mb-3">
+                                            <label for="actoadministrativo" class="form-label">Acto administrativo (dispo o reso)</label>
+                                            <input type="text" value="<%= t.tarjetasactoadministrativo %>" class="form-control" id="form-actoadministrativo" name="actoadministrativo">
+                                        </div>
+                                        <br>
+                                        <label for="tags" class="form-label">Palabras clave</label>
+                                        <select name ="tags" class="form-select" onchange="agregarTag(event, 'tags-editarhito-<%= t.idtarjetas%>', 'hito-tag')">
+                                            <option value selected></option>
+                                            <% for(let t of tags) { %>
+                                                <option value="<%= t.tagsnombre %>"><%= t.tagsnombre %></option>
+                                            <% } %> 
+                                        </select>
+                                        <div class="tag-container" id="tags-editarhito-<%= t.idtarjetas%>">
+                                            <% for(let tag of t.tarjetastags.split(',')) { %>
+                                                <p class="hito-tag" id="tag-hito-<%= t.idtarjetas %>"><%= tag %></p>
+                                            <% } %>
+                                        </div>
+                                        <br>
+                                        <div style="text-align: center;">
+                                            <button type="button" class="boton boton-confirmar" onclick="comprobarCamposYGuardar('<%= t.idtarjetas%>')">Guardar y Aprobar</button>
+                                        </div>
+                                        <div id="modal-guardaryaprobarhito-<%= t.idtarjetas%>" class="modal">
+                                            <div class="modal-content">
+                                                <div class="boton-cerrar">
+                                                    <button type="button" onclick="cerrarModal('modal-guardaryaprobarhito-<%= t.idtarjetas%>')" class="close">&times;</button>
+                                                </div>
+                                                <div>
+                                                    <p>
+                                                        Se guardarán los cambios y la tarjeta pasará a estado de 'aprobada'. 
+                                                    </p>
+                                                    <p>¿Desea continuar?</p>
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <button type="button" onclick="guardarYAprobarHito('<%= t.idtarjetas %>');" class="boton boton-confirmar">Confirmar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                <% } %> 
+            <% } %> 
+        </tbody>
+    </table>
+</div>
+<script>
+    function comprobarCamposYGuardar(idTarjeta) {
+
+        let form = document.getElementById('form-editarhito-' + idTarjeta);
+
+        let data = {
+            titulo: form.titulo.value,
+            cuerpo: form.cuerpo.value,
+            expediente: form.expediente.value,
+            actoadministrativo: form.actoadministrativo.value,
+        }
+
+        let tagContainer = document.getElementById('tags-editarhito-' + idTarjeta);
+
+        let tags= [];
+
+        for (const child of tagContainer.children) {
+            tags.push(child.innerHTML)
+        }
+
+        data.tags = tags.join(',')
+
+        if(data.titulo && data.cuerpo && data.tags) {
+            abrirModal('modal-guardaryaprobarhito-' + idTarjeta)
+        } else {
+            mostrarError('¡Campos incompletos!');
+        }
+    }
+</script>

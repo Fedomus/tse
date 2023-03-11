@@ -1,0 +1,78 @@
+<div class="box-header">
+    <br>
+    <h4 class="titulo">Tabla de Áreas</h4>
+    <hr>
+</div>
+<div class="seccion-tabla">
+    <table class="display compact" id="tablaareas">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Iniciales</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Editar</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for(const a of areas) { %> 
+                <tr>
+                    <td scope="row"><%= a.idareas %></td>
+                    <td><%= a.areasnombre %></td>
+                    <td><%= a.areasdescripcion %></td>
+                    <td><button type="button" class="boton-chico" onclick="abrirModal('modal-area-<%= a.idareas%>')">Editar</button>
+                        <div id="modal-area-<%= a.idareas%>" class="modal">
+                            <div class="modal-content">
+                                <div class="boton-cerrar">
+                                    <button type="button" onclick="cerrarModal('modal-area-<%= a.idareas%>')" class="close">&times;</button>
+                                </div>
+                                <div>
+                                    <form onsubmit="editarArea(event, '<%= a.idareas %>')" id="form-editArea-<%= a.idareas %>">
+                                        <div class="mb-3">
+                                            <label for="iniciales" class="form-label">Área (iniciales)</label>
+                                            <input type="text" id="areaIniciales" value="<%= a.areasnombre %>" class="form-control" name="iniciales" required>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="nombre" class="form-label">Área (nombre completo)</label>
+                                            <input type="text" id="areaNombre" value="<%= a.areasdescripcion %>" class="form-control" name="nombre" required>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <button type="button" onclick="comprobarCamposYEditarArea('<%= a.idareas %>');" class="boton boton-confirmar" id="">Guardar Cambios</button>
+                                        </div>
+                                        <div id="modal-editararea-<%= a.idareas %>" class="modal">
+                                            <div class="modal-content">
+                                                <div class="boton-cerrar">
+                                                    <button type="button" onclick="cerrarModal('modal-editararea-<%= a.idareas %>')" class="close">&times;</button>
+                                                </div>
+                                                <div>
+                                                    <p>Se guardarán los cambios en la base de datos y no habrá retorno.</p>
+                                                    <p>¿Desea continuar?</p>
+                                                </div>
+                                                <div style="text-align: center;">
+                                                    <input type="submit" id="btn-agregarUsuario" class="boton boton-confirmar" value="Confirmar">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            <% } %> 
+        </tbody>
+    </table>
+</div>
+<script>
+    function comprobarCamposYEditarArea(idArea){
+        const form = new FormData(document.getElementById('form-editArea-' + idArea));
+        const body = {
+            iniciales: form.get('iniciales'),
+            nombre: form.get('nombre')
+        }
+        if(body.iniciales && body.nombre) {
+            abrirModal('modal-editararea-' + idArea)
+        } else {
+            mostrarError('¡Campos incompletos!')
+        }
+    }
+</script>

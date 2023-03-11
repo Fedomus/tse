@@ -1,0 +1,94 @@
+<div id="tabla-usuarios">
+    <div class="box-header">
+        <br>
+        <h4 class="titulo">Tabla de Usuarios</h4>
+        <hr>
+    </div>
+    <div class="seccion-tabla">
+        <div style="text-align: center;">
+            <button type="button" class="boton" onclick="cargarFormAlta();">Nuevo Usuario</button>
+        </div>
+        <br>
+        <br>
+        <table class="display compact" id="tablausuarios">
+            <thead>
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Área</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(const usu of usuarios) { %> 
+                    <tr>
+                        <td><%= usu.usuariosnombre %></td>
+                        <td><%= usu.areasnombre %></td>
+                    </tr>
+                <% } %> 
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="noTiene" id="form-alta">
+    <div class="box-header">
+        <br>
+        <h4 class="titulo">Formulario de Alta de Usuario</h4>
+        <hr>
+    </div>
+    <div class="box-form">
+        <br>
+        <form onsubmit="altaUsuario(event);" id="form-newuser">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre de usuario</label>
+                <input type="text" id="input-username" class="form-control" name="nombre" required>
+            </div>
+            <div class="mb-3">
+                <label for="area" class="form-label">Área</label>
+                <select id="newuser-select-area" form='form-newuser' class="form-select" name="area" required>
+                    <option></option>
+                    <% for(const a of areas) { %>
+                        <option value="<%= a.idareas %>"><%= a.areasnombre %> (<%= a.areasdescripcion %>)</option>
+                    <% } %>  
+                </select>
+            </div>
+            <div style="text-align: center;">
+                <button type="button" class="boton boton-secundario" onclick="cargarTablaUsuarios()">Volver</button>
+                <button type="button" onclick="comprobarCamposYDarAlta()" class="boton boton-confirmar" id="btn-newuser-aceptar">Aceptar</button>
+            </div>
+            <div id="modal-confirmar-alta" class="modal">
+                <div class="modal-content">
+                    <div class="boton-cerrar">
+                        <button type="button" onclick="cerrarModal('modal-confirmar-alta')" class="close">&times;</button>
+                    </div>
+                    <div>
+                        <p>Se creará el nuevo usuario con su contraseña provisoria: 'temporal319'</p>
+                        <p>¿Desea continuar?</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <input type="submit" id="btn-agregarUsuario" class="boton boton-confirmar" value="Confirmar">
+                    </div>
+                </div>
+            </div>
+        </form> 
+    </div>
+</div>
+<script>
+
+    function comprobarCamposYDarAlta(){
+        const form = new FormData(document.getElementById('form-newuser'));
+
+        const body = {
+            nombre: form.get('nombre'),
+            area: parseInt(document.getElementById('newuser-select-area').value)
+        }
+
+        if(body.nombre && body.area) {
+            abrirModal('modal-confirmar-alta')
+        } else {
+            mostrarError('¡Campos incompletos!')
+        }
+        
+    }
+</script>
+
+
+

@@ -1,0 +1,84 @@
+<html lang="es">
+    <head>
+        <%- include('../partials/head') %>
+    </head>
+    <body>
+        <%- include('../partials/navbarMayor') %> 
+        <div class="t-container">
+            <div class="off-canvas" id="off-canvas-nav">
+                <div class="oc-btnclose-container">
+                    <button onclick="closeOffcanvas()" type="button" class="oc-btnclose">
+                        &times;
+                    </button>
+                </div>
+                <ul class="t-tabs">  
+                    <li class="t-tab">Bandeja</li>
+                    <li class="t-tab">Aprobados</li>
+                    <li class="t-tab">Rechazados</li>
+                    <li class="t-tab">Usuarios</li>
+                    <li class="t-tab">Áreas</li>
+                </ul>
+            </div>
+            <main class="page-wrap">
+                <%- include('../partials/navbar', {
+                    titulo: "Panel de administración"
+                }) %>
+                <section class="main-content">
+                    <ul class="t-contents">
+                        <li class="t-content">
+                            <%- include('../partials/bandeja') %>
+                        </li>
+                        <li class="t-content">
+                            <%- include('../partials/hitosAprobados') %>
+                        </li>
+                        <li class="t-content">
+                            <%- include('../partials/hitosRechazados') %>
+                        </li>
+                        <li class="t-content">
+                            <%- include('../partials/usuarios') %>
+                        </li>
+                        <li class="t-content">
+                            <%- include('../partials/areas') %>
+                        </li>	   
+                    </ul>
+                </section>
+            </main>
+        </div>
+        <script src="/js/script.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", async () => {
+
+                loadNavbar()
+                
+                easyTabs()
+                
+                closeOffcanvas();
+
+                $.fn.dataTable.moment('DD/MM/YYYY');
+                
+                let tablas = ['#tablausuarios', '#tablaareas', '#tablatarjetas', '#tablaaprobadas', '#tablarechazadas'];
+                for (const tabla of tablas) {
+                    $(tabla).DataTable({
+                        "order": [[0, "desc"]],
+                        "pageLength": 25,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                        },
+                        // "scrollX": true,
+                        // "responsive": true,
+                    });
+                }
+
+                let tags= document.getElementsByClassName('hito-tag');
+                for(let i = 0; i < tags.length; i++) {
+                    let elem = tags[i]
+                    elem.addEventListener('click', () => {
+                        elem.remove();
+                    });
+                }
+            
+            });
+        </script>
+        <%- include('../partials/footer'); %>
+    </body>
+</html>
