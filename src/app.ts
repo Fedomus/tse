@@ -1,9 +1,8 @@
-import express, { Application } from "express";
+import express from "express";
 import {IRouter} from './interfaces/IRouter';
 import moment from 'moment';
 import logger from "./logger";
 import cluster from 'cluster';
-import * as https from 'node:https';
 
 
 
@@ -106,16 +105,16 @@ export class App {
             logger.info(`Número de procesadores: ${this.numCPUs}`);
             logger.info(`PID Máster: ${process.pid}`);
             for (let i = 0; i < this.numCPUs; i++) {
-                  cluster.fork()
+                cluster.fork()
             }
             cluster.on('exit', worker => {
-                  logger.info(`Worker ${worker.process.pid} died ${new Date().toLocaleString()}`);
-                  cluster.fork()
+                logger.info(`Worker ${worker.process.pid} died ${new Date().toLocaleString()}`);
+                cluster.fork()
             })
         } else {
             try {
-                https.createServer(this.sslCredentials, this.app).listen(this.port);
-                logger.info(`PID Worker ${process.pid}. Servidor escuchando en puerto ${this.port}`);
+                (this.app).listen(443);
+                logger.info(`PID Worker ${process.pid}. Servidor escuchando en puerto ${this.port} y 443`);
             } catch(err) {
                 logger.error(`Error en el servidor: ${err}`)
             }

@@ -37,7 +37,7 @@ if(ENV.KEY && ENV.SECRET) {
 const CSPDirectives = helmet.contentSecurityPolicy.getDefaultDirectives();
 CSPDirectives["script-src"] = ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net", "cdn.datatables.net", "code.jquery.com", "cdnjs.cloudflare.com", "pagination.js.org", "kit.fontawesome.com"];
 CSPDirectives["style-src"] = ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net", "cdn.datatables.net", "cdnjs.cloudflare.com", "fonts.cdnfonts.com"];
-CSPDirectives["connect-src"] = ["'self'", "ka-f.fontawesome.com", "fonts.cdnfonts.com", "cdn.datatables.net"];
+CSPDirectives["connect-src"] = ["'self'", "localhost:8080", "ka-f.fontawesome.com", "fonts.cdnfonts.com", "cdn.datatables.net"];
 CSPDirectives["script-src-attr"] = ["'unsafe-inline'"]
 delete CSPDirectives['upgrade-insecure-requests'];
 
@@ -45,7 +45,7 @@ function rutaValida(err, req, res, next) {
     if (err) {
     return res.status(err.statusCode || 500).json(err.message);  
     }
-    next() 
+    next()
 }
 
 export const middlewareGlobal: any[] = [
@@ -54,7 +54,7 @@ export const middlewareGlobal: any[] = [
     express.urlencoded({extended: true}),
     cors(),
     helmet({
-        contentSecurityPolicy:{
+        contentSecurityPolicy: {
             directives: CSPDirectives   
         }
     }),
