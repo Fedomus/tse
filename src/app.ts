@@ -3,8 +3,7 @@ import {IRouter} from './interfaces/IRouter';
 import moment from 'moment';
 import logger from "./logger";
 import cluster from 'cluster';
-
-
+import * as https from 'node:https'
 
 declare module 'express-session' {
     interface SessionData {
@@ -14,7 +13,6 @@ declare module 'express-session' {
         area: number;
     }
 }
-
 
 export class App {
     
@@ -113,6 +111,7 @@ export class App {
             })
         } else {
             try {
+                // https.createServer(this.sslCredentials, this.app).listen(this.port);
                 this.app.listen(this.port);
                 logger.info(`PID Worker ${process.pid}. Servidor escuchando en puerto ${this.port} y 443`);
             } catch(err) {
