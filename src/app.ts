@@ -113,7 +113,7 @@ export class App {
             })
         } else {
             try {
-                (this.app).listen(443);
+                this.app.listen(this.port);
                 logger.info(`PID Worker ${process.pid}. Servidor escuchando en puerto ${this.port} y 443`);
             } catch(err) {
                 logger.error(`Error en el servidor: ${err}`)
