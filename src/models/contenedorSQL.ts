@@ -28,13 +28,12 @@ export default class contenedorSQL {
         this.tabla = tabla; 
     }
 
-    protected async save(elem: any) {
+    async save(elem: any) {
         await this.knex(this.tabla).insert(elem)
-        .then(() => console.log('Elemento guardado'))
         .catch((error: string) => logger.error('Error en save: ' + error))
     }
 
-    protected async getAll() {
+    async getAll() {
         return await this.knex(this.tabla).select('*')
         .then((result: any) => {
             return result

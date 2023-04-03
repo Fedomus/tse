@@ -1,6 +1,6 @@
 <div class="box-header">
     <br>
-    <h4 class="titulo">Tabla de Hitos Rechazados</h4>
+    <h4 class="titulo">Tabla de Fichas Rechazadas</h4>
     <hr>
 </div>
 <div class="seccion-tabla">
@@ -11,75 +11,85 @@
                 <th scope="col">Área</th>
                 <th scope="col">Autor</th>
                 <th scope="col">Título</th>
-                <th scope="col">Ver</th>
+                <th scope="col">Ult Mod Usuario</th>
+                <th scope="col">Ult Mod Fecha</th>
             </tr>
         </thead>
         <tbody>
             <% if(tarjetasRechazadas.length){ %> 
                 <% for(const t of tarjetasRechazadas) { %> 
-                    <tr>
+                    <tr class="mapa-ficha" onclick="abrirModal('modal-tarjetaRechazada-<%= t.idtarjetas %>')">
                         <td><%= moment(t.tarjetasfecha).format('DD/MM/YYYY') %></td>
                         <td><%= t.areasnombre %></td>
                         <td><%= t.usuariosnombre %></td>
                         <td><%= t.tarjetastitulo %></td>
                         <td>
-                            <button class="boton-chico" type="button" onclick="abrirModal('modal-tarjetaRechazada-<%= t.idtarjetas %>')">
-                                Ver
-                            </button>
-                            <div id="modal-tarjetaRechazada-<%= t.idtarjetas %>" class="modal">
+                            <%= t.tarjetasultmodusuario %>
+                        </td>
+                        <td>
+                            <%= new Date(t.tarjetasultmodfecha).toLocaleString() %>
+                        </td>
+                    </tr>
+                    <div id="modal-tarjetaRechazada-<%= t.idtarjetas %>" class="modal">
+                        <div class="modal-content">
+                            <div class="boton-cerrar">
+                                <button type="button" onclick="cerrarModal('modal-tarjetaRechazada-<%= t.idtarjetas %>')" class="close">&times;</button>
+                            </div>
+                   
+                            <div class="card" id="t-<%= t.idtarjetas %>">
+                                <div class="card-body">
+                                    <p class="text-muted"><%= moment(t.tarjetasfecha).format('DD/MM/YYYY') %></p>
+                                    <h5 class="card-title"><%=t.tarjetastitulo%></h5>
+                                    <p class="card-text"><%=t.tarjetascuerpo%></p>
+                                    <br>
+                                    <% if(t.tarjetasexpediente) { %>
+                                        <p class="text-muted small">
+                                            <b>Expediente: </b><%= t.tarjetasexpediente %>
+                                        </p>
+                                        <% } %>
+                                        <% if(t.tarjetasactoadministrativo) { %>
+                                            <p class="text-muted small">
+                                                <b>Acto Administrativo: </b><%= t.tarjetasactoadministrativo %>
+                                            </p>
+                                        <% } %>
+                                    <p class="text-muted small"><b>Palabras clave: </b><%=t.tarjetastags%></p>
+                                    <p class="text-muted small"><b>Area: </b><%=t.areasnombre%></p>
+                                    <hr>
+                                    <p class="text-muted small"><b>Eje: </b><%=t.ejesnombre%></p>
+                                    <p class="text-muted small"><b>Objetivo estratégico: </b><%=t.objetivosnombre%></p>
+                                    <p class="text-muted small"><b>Línea estratégica: </b><%=t.lineasnombre%></p>
+                                    <p class="text-muted small"><b>Plan de acción: </b><%=t.planesdeaccionnombre%></p>
+                                </div>
+                            </div>
+                            <div style="text-align: center;">
+                                <button type="button" class="boton" onclick="abrirModal('modal-evaluarHitoRechazado-<%= t.idtarjetas %>');">
+                                    Poner en evaluación
+                                </button>
+                            </div>
+                            <div id="modal-evaluarHitoRechazado-<%= t.idtarjetas %>" class="modal">
                                 <div class="modal-content">
                                     <div class="boton-cerrar">
-                                        <button type="button" onclick="cerrarModal('modal-tarjetaRechazada-<%= t.idtarjetas %>')" class="close">&times;</button>
-                                    </div>
-                           
-                                    <div class="card" id="t-<%= t.idtarjetas %>">
-                                        <div class="card-body">
-                                            <p class="text-muted"><%= new Date(t.tarjetasfecha).toLocaleDateString() %></p>
-                                            <h5 class="card-title"><%=t.tarjetastitulo%></h5>
-                                            <p class="card-text"><%=t.tarjetascuerpo%></p>
-                                            <br>
-                                            <p class="text-muted small"><%= t.tarjetasexpediente ? '<b>Expediente:</b>' + item.tarjetasexpediente : ''%></p>
-                                            <p class="text-muted small"><%= t.tarjetasactoadministrativo ? '<b>Acto Administrativo:</b>' + item.tarjetasactoadministrativo : ''%></p> 
-                                            <p class="text-muted small"><b>Palabras clave: </b><%=t.tarjetastags%></p>
-                                            <p class="text-muted small"><b>Area: </b><%=t.areasnombre%></p>
-                                            <hr>
-                                            <p class="text-muted small"><b>Eje: </b><%=t.ejesnombre%></p>
-                                            <p class="text-muted small"><b>Objetivo estratégico: </b><%=t.objetivosnombre%></p>
-                                            <p class="text-muted small"><b>Línea estratégica: </b><%=t.lineasnombre%></p>
-                                            <p class="text-muted small"><b>Plan de acción: </b><%=t.planesdeaccionnombre%></p>
-                                        </div>
-                                    </div>
-                                    <div style="text-align: center;">
-                                        <button type="button" class="boton" onclick="abrirModal('modal-evaluarHitoRechazado-<%= t.idtarjetas %>');">
-                                            Poner en evaluación
+                                        <button type="button" onclick="cerrarModal('modal-evaluarHitoRechazado-<%= t.idtarjetas %>');" class="close">
+                                            &times;
                                         </button>
                                     </div>
-                                    <div id="modal-evaluarHitoRechazado-<%= t.idtarjetas %>" class="modal">
-                                        <div class="modal-content">
-                                            <div class="boton-cerrar">
-                                                <button type="button" onclick="cerrarModal('modal-evaluarHitoRechazado-<%= t.idtarjetas %>');" class="close">
-                                                    &times;
-                                                </button>
-                                            </div>
-                                            <div>
-                                                <p>
-                                                    La tarjeta pasará a estado de 'evaluándose'.
-                                                </p>
-                                                <p>
-                                                    ¿Desea continuar?
-                                                </p>
-                                            </div>
-                                            <div style="text-align: center;">
-                                                <button type="button" onclick="evaluarHito(`<%= t.idtarjetas %>`);" class="boton boton-confirmar">
-                                                    Confirmar
-                                                </button>
-                                            </div>
-                                        </div>
+                                    <div>
+                                        <p>
+                                            La tarjeta pasará a estado de 'evaluándose'.
+                                        </p>
+                                        <p>
+                                            ¿Desea continuar?
+                                        </p>
+                                    </div>
+                                    <div style="text-align: center;">
+                                        <button type="button" onclick="evaluarHito(`<%= t.idtarjetas %>`);" class="boton boton-confirmar">
+                                            Confirmar
+                                        </button>
                                     </div>
                                 </div>
                             </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </div>
                 <% } %> 
             <% } %> 
         </tbody>

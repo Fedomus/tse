@@ -34,6 +34,10 @@ table {
 	letter-spacing: 0.5px;
 }
 
+.noTiene {
+	display: none !important;
+}
+
 /****************************************************** FOOTER ***************************************************/
 
 footer {
@@ -106,11 +110,12 @@ footer {
 	max-width: 200px;
 	margin: auto;
 	margin-top: 50px;
+	font-size: 15px;
 }
 .home-link:hover{
 	background-color: #2d2d2d;
 }
-.home-link a h3 {
+.home-link a h5 {
 	color: white;
 	font-weight: 600;
 	padding: 20px;
@@ -168,8 +173,8 @@ footer {
 	.home-link {
 		padding: 0px;
 	}
-	.home-link a h3{
-		font-size: 15px;
+	.home-link a h5{
+		font-size: 17px;
 		padding: 15px;
 		
 	}
@@ -179,107 +184,67 @@ footer {
 }
 
 /********************************************************* MAPA ***********************************************/
+
+.mapa-contenido{
+	display: flex;
+	justify-content: center;
+}
 .box-mapa{
 	padding-left: 20px;
 	padding-right: 20px;
-	max-width: 1500px;
+	max-width: 1200px;
 	margin: auto;
 }
-.eje{
-	border-radius: 5px;
-	padding: 30px;
-	margin: 20px;
-	font-weight: 600;
-	color: black;
-	font-size: 15px;
-	box-shadow: 0px 8px 8px 0px rgba(0,0,0,.2);
-	text-align: left;
-}
-.ejes:hover{
-	cursor: pointer;
-}
-.eje-1{
-	background-color: var(--eje1);
-}
-
-.eje-1:hover{
-	background: var(--eje1);
-	background: linear-gradient(0deg, var(--eje1) 1%, rgba(242,200,200,1) 50%, var(--eje1) 98%);
-}
-.eje-2{
-	background-color:var(--eje2);
-}
-.eje-2:hover{
-	background: var(--eje2);
-	background: linear-gradient(0deg, var(--eje2) 1%, rgba(239,240,193,1) 50%, var(--eje2) 98%);
-}
-.eje-3{
-	background-color: var(--eje3);
-}
-.eje-3:hover{
-	background: var(--eje3);
-	background: linear-gradient(0deg, var(--eje3) 1%, rgba(195,237,197,1) 50%, var(--eje3) 98%);
-}
-.eje-4{
-	background-color: var(--eje4);
-}
-.eje-4:hover{
-	background: var(--eje4);
-	background: linear-gradient(0deg, var(--eje4) 1%, rgb(202, 204, 236) 50%, var(--eje4) 98%);
-}
-.objetivos-container {
-	padding: 30px;
-	padding-left: 50px;
-	padding-right: 50px;
-}
-
-.lineas-container {
-	padding: 30px;
-	padding-left: 50px;
-	padding-right: 50px;
-}
-.tarjetas-container{
-	padding: 30px;
-}
-.objetivo {
+.barra-direcciones{
+	border: 1px solid black;
+	box-shadow: 0px 1px 2px 0px black;
 	padding: 20px;
-	margin: 10px;
-	font-size: 14px;
-	font-weight: 700;
-	border-radius: 5px;
-	box-shadow: 0px 6px 6px 0px rgba(0,0,0,.2);
 	text-align: left;
 }
-.linea {
+.mapa-opciones{
+	border: 1px solid rgb(23, 6, 124);
+	background-color: rgb(232, 230, 241);
 	padding: 15;
 	margin: 7;
-	font-size: 13px;
-	font-weight: 600;
 	border-radius: 3px;
-	box-shadow: 0px 4px 4px 0px rgba(0,0,0,.2);
 	text-align: left;
 }
-.planes-container{
-	padding-left: 30px;
-	padding-right: 30px ;
-	margin-top: 40px;
-	margin-bottom: 40px;
+.mapa-opciones:hover{
+	box-shadow: 0px 1px 2px 0px rgb(23, 6, 124);
+	cursor: pointer;
 }
-.plan {
-	margin:20px;
-	padding: 10px;
-	border-radius: 3px;
-	font-size:12px;
-	font-weight: 600;
-	text-align: left;
-}
-.mapa-titulo{ 
-	background-color: white;
-	border: 0px;
-	text-align: left;
-}
-.mapa-titulo:hover{
+.direcciones-link {
+	color: blue;
 	text-decoration: underline;
+}
+.direcciones-link:hover {
+	cursor: pointer;
+	color: #350ec1;
+}
+.mapa-referencias {
+	max-width: fit-content;
+	min-height: 0;
+	margin: auto;
+	padding-left: 20px;
+	padding-right: 20px;
+	border: 1px solid grey;
+	border-radius: 8px;
+	box-shadow: 0px 2px 3px 0px grey;
+	background-color: #efefef;
+	text-align: left;
+}
+.mapa-titulo {
+	width: 100%;
+	text-align: center;
+}
+.mapa-referencias p {
+	margin-top: 15px;
+}
+.mapa-ficha:hover{
+	cursor: pointer;
+	background-color:rgb(226, 226, 237);
+	box-shadow: 0px 1px 2px 0px rgb(41, 43, 168);
+	color: var(--azul-principal);
 }
 
 @media (max-width: 900px) {
@@ -289,44 +254,8 @@ footer {
 		width: 95%;
 		margin: auto;
 	}
-	.eje {
-		padding: 10px;
-		margin: 5px;
-		margin-bottom: 15px;
-		font-size: 14px;
-		min-height: 70px;
-		display: flex;
-		align-items: center;
-	}
-	.objetivo{
-		margin-bottom: 10px;
-		font-size: 13px;
-	}
-	.objetivos-container {
-		padding: 10px;
-		padding-left: 10px;
-		padding-right: 10px;
-	}
-	.lineas-container {
-		padding: 10px;
-		padding-left: 10px;
-		padding-right: 10px;
-	}
-	.linea{
-		font-size: 12px;
-	}
-	.tarjetas-container{
-		padding: 10px;
-	}
-	.planes-container{
-		padding-left: 10px;
-		padding-right: 10px ;
-		margin-top: 10px;
-		margin-bottom: 10px;
-	}
-	.plan{
-		margin: 5px;
-		font-size: 12px;
+	.mapa-contenido{
+		display: block;
 	}
 }
 
@@ -414,8 +343,14 @@ footer {
 	border-color: #ffffff;
 	box-shadow: 1px 1px 4px -2px rgba(0, 0, 0, 0.4);
 }
-
-
+.open-menu{
+	height: 40px;
+	width: 40px;
+	border-radius: 50px;
+}
+.open-menu:hover{
+	background-color: var(--azul-secundario);
+}
 .dropdown-open .dropdown-menu.dropdown-active {
 	display: block;
 }
@@ -478,10 +413,12 @@ footer {
 	font-size: small;
 	letter-spacing: 1.3px;
 }
+.icono-container{
+	display: flex;
+	align-items: center;
+}
 .icono-mobile{
 	display: none;
-	color: white;
-	font-size: small;
 }
 .left-contenedor{
 	display: flex;
@@ -518,14 +455,20 @@ footer {
 	justify-content: right;
 	display: flex;
 	align-items: center;
+
   }
   .oc-btnclose {
 	font-size: 40px;
+	height: 40px;
+	width: 40px;
 	border: none;
+	border-radius: 50px;
 	background-color: var(--gris);
 	color: white;
+	display: flex;
+	align-items: center;
+	text-align: center;
   }
-
   .oc-close{
 	width: 0;
   }
@@ -831,6 +774,10 @@ footer {
 	/* max-width: 1000px; */
 	
 }
+.desplegable-plan:focus{
+	background: none;
+	color: black;
+}
 .card p {
 	margin: 0;
 }
@@ -877,9 +824,16 @@ footer {
 
 .box-hashtags{
 	max-width: 500px;
-	margin: auto;
+	margin: 20px;
 }
-
+.box-areas{
+	margin-top: 20px;
+}
+.filtro2{
+	display: flex; 
+	flex-wrap: wrap; 
+	justify-content: center;
+}
 .tag-container {
 	display: flex;
 	flex-flow: row wrap;
@@ -897,7 +851,7 @@ footer {
 	display: flex;
 	pointer-events: none;
 	border-radius: 3px;
-	background-color: #350ec1;
+	background-color: var(--azul-secundario);
 	color: white;
 	padding: 5px;
 	margin: 5px;
@@ -917,7 +871,12 @@ footer {
 	background-color: #666666;
 	cursor: pointer;
   }
-
+.tarjetas-container {
+	text-align: center;
+}
+.table {
+	width: max-content;
+}
   @media (max-width:900px) {
 	.t-content.selected {
 		padding: 0;
@@ -932,10 +891,41 @@ footer {
 	.form-select-filtros{
 		width: 300px;
 	}
+	.filtro2{
+		display: block;
+	}
+	.box-areas, .box-hashtags{
+		width: 100%;
+		padding: 10px;
+	}
   }
 
 /************************************************* AGREGAR TARJETA ****************************************************/
-
+.box-aviso{
+	border: 1px solid rgb(7, 58, 112);
+	background-color: rgb(211, 221, 232);
+	box-shadow: 0px 1px 2px 0px rgb(7, 58, 112);
+	padding: 20px;
+	border-radius: 5px;
+	width: fit-content;
+	height: fit-content;
+}
+.box-aviso p {
+	text-align: left;
+	color: rgb(7, 58, 112);
+	margin-bottom: 0px;
+}
+.aviso-link{
+	color: rgb(10, 52, 167);
+	text-decoration: underline;
+}
+.aviso-link i {
+	font-size: 20px;
+}
+.aviso-link:hover{
+	color: blue;
+	cursor: pointer;
+}
 .box-form{
 	display: flex;
 	flex-direction: column;
@@ -950,10 +940,10 @@ footer {
 	color: #FFF ;
 	background-color: #350ec1;
     cursor: default;
-	padding: 10px 15px;
+	padding: 8px 13px;
     text-decoration: none;
     border: 2px solid black;
-	font-size: 0.8rem;
+	font-size: 0.7rem;
     line-height: 24px;
     font-weight: 600;
     text-align: center;
@@ -1049,7 +1039,8 @@ footer {
 	padding-left: 70px;
 	padding-right: 70px;
 	padding-top: 10px; 
-	max-width: 1200px;
+	max-width: 1000px;
+	text-align: left;
 	margin: auto;
 }
 .box-descarga{
@@ -1063,7 +1054,21 @@ footer {
 .link-descarga:hover{
 	text-decoration: underline;
 }
-
+.box-indice{
+	border: 1px solid black;
+	box-shadow: 0px 1px 2px 0px black;
+	margin-bottom: 20px;
+	padding: 20px;
+}
+.indice-items{
+	list-style-type:decimal
+}
+.select2-selection, .select2-dropdown, .select2{
+	min-width: fit-content;
+}
+.noTiene{
+	display: none;
+}
 @media (max-width:900px) {
 	.box-info {
 		padding-left: 5px;
@@ -1136,7 +1141,7 @@ footer {
 	align-self: right;
 	font-size: 28px;
 	font-weight: bold;
-	width: 50px;
+	padding: 10px 12px;
 	border-radius: 5px;
   }
   

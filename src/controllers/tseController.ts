@@ -1,19 +1,25 @@
 import { Response, Request } from "express";
 import apiTarjetas from '../api/apiTarjetas';
 import logger from "../logger";
+import apiAreas from "../api/apiAreas";
 
 export default class rootController {
 
     private apiTarjetas: apiTarjetas = new apiTarjetas();
+    private apiAreas: apiAreas = new apiAreas()
 
     public async getTse(req: Request, res: Response): Promise<any> {
 
-        try {        
-            const tags = await this.apiTarjetas.getTags();
+        try {    
+            const tags = await this.apiTarjetas.obtenerTagsOrdenados();
+
+            const areas = await this.apiAreas.obtenerTodas();
+
             return res.render('../views/pages/tse.ejs', {
                 usuarioLogueado: req.session.usuarioLogueado,
                 usuario: req.session.usuario,
                 tipo: req.session.tipo,
+                areas: areas,
                 tags: tags,
                 error: false
             });

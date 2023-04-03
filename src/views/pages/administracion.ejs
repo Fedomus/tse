@@ -13,8 +13,8 @@
                 </div>
                 <ul class="t-tabs">  
                     <li class="t-tab">Bandeja</li>
-                    <li class="t-tab">Aprobados</li>
-                    <li class="t-tab">Rechazados</li>
+                    <li class="t-tab">Aprobadas</li>
+                    <li class="t-tab">Rechazadas</li>
                     <li class="t-tab">Usuarios</li>
                     <li class="t-tab">Áreas</li>
                 </ul>
@@ -47,6 +47,10 @@
         <script src="/js/script.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", async () => {
+
+                $('#bandeja-tags').select2({
+                theme:"bootstrap"
+                })
 
                 loadNavbar()
                 

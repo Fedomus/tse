@@ -1,6 +1,6 @@
 <div class="box-header">
     <br>
-    <h4 class="titulo">Historial de hitos de gestión</h4>
+    <h4 class="titulo">Historial de fichas de gestión</h4>
     <hr>
 </div>
 <div class="box-tarjetas">
@@ -32,19 +32,35 @@
             </div>
         </div>
     </div>
-    <div class="box-hashtags">
-        <label for="select-hashtags" class="form-label">Palabras clave</label>
-        <select name ="select-hashtags" class="form-select" id="filtro-hashtags" onchange="agregarTag(event, 'filtro-tag-container', 'filtro-tag')">
-            <option value selected></option>
-            <% for(let t of tags) { %>
-            <option value="<%= t.tagsnombre %>"><%= t.tagsnombre %></option>
-            <% } %> 
-        </select>
-        <div class="tag-container" id="filtro-tag-container"></div>
+    <div class="filtro2">
+        <div class="box-areas">
+            <label for="filtro-area">Área</label>
+            <select style="width: 300px;" name="filtro-area" class="form-select" id="filtro-area">
+                <option></option>
+                <% for (const area of areas) { %>
+                    <option value="<%= area.idareas %>"><%= area.areasnombre %> (<%= area.areasdescripcion %>)</option>
+                <% } %>
+            </select>
+        </div>
+        <div class="box-hashtags">
+            <label for="select-hashtags" class="form-label">Palabras clave</label>
+            <select name ="select-hashtags" class="form-select" id="filtro-hashtags" onchange="agregarTag(event, 'filtro-tag-container', 'filtro-tag')">
+                <option value selected></option>
+                <% for(let t of tags) { %>
+                <option value="<%= t%>"><%= t %></option>
+                <% } %> 
+            </select>
+            <div class="tag-container" id="filtro-tag-container"></div>
+        </div>
     </div>
     <br>
     <div style="text-align: center;">
         <button type="button" onclick="busqueda()" class="boton" id="">Buscar</button>
+        <br><br>
+        <div class="mb-3" style="max-width: 300px; margin: auto;">
+            <label class="form-label" for="filtro-titulocuerpo"></label>
+            <input onkeyup="buscarTituloDescripcion();" class="form-control" type="text" name="filtro-titulocuerpo" id="filtro-titulocuerpo" placeholder="Buscar en título y descripción">
+        </div>
     </div>
     <br>
     <br>

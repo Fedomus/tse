@@ -21,13 +21,13 @@ export default class adminController {
             const tarjetasEvaluandose = await this.apiTarjetas.obtenerTarjetasEvaluandose();
             const tarjetasAprobadas = await this.apiTarjetas.obtenerTarjetasAprobadas();
             const tarjetasRechazadas = await this.apiTarjetas.obtenerTarjetasRechazadas();
-            const tags = await this.apiTarjetas.getTags();
+            const tags = await this.apiTarjetas.obtenerTagsOrdenados();
             return res.render('../views/pages/administracion.ejs', {
                 usuarioLogueado: req.session.usuarioLogueado,
                 usuario: req.session.usuario,
                 usuarios: usuarios,
                 areas: areas,
-                tags: tags,
+                tags: tags.sort(),
                 tipo: req.session.tipo,
                 tarjetas: tarjetasEvaluandose,
                 tarjetasAprobadas: tarjetasAprobadas,

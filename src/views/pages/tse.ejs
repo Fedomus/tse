@@ -15,9 +15,9 @@
                 </div>
                 <ul class="t-tabs">
                     <li class="t-tab"><i class="fa-solid fa-map"></i>&nbsp;&nbsp;&nbsp;Mapa</li> 
-                    <li class="t-tab"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;&nbsp;Hitos</li>  
-                    <% if(tipo != 4) { %>
-                        <li class="t-tab"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;&nbsp;Nuevo</li> 
+                    <li class="t-tab"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;&nbsp;Fichas</li>  
+                    <% if(tipo != 4 && tipo != 1) { %>
+                        <li class="t-tab"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;&nbsp;Nueva</li> 
                     <% } %>
                     <li class="t-tab"><i class="fa-solid fa-chart-simple"></i>&nbsp;&nbsp;&nbsp;Estadísticas</li>
                     <% if(tipo != 4) { %>
@@ -39,13 +39,24 @@
                                 <hr>
                             </div>
                             <div class="box-mapa" id="mapa">
-                                <div id="ejes-container" class="ejes"></div>
+                                <br>
+                                <div class="barra-direcciones" id="barra-direcciones"></div>
+                                <br>
+                                <br>
+                                <div class="mapa-referencias" id="mapa-referencias"></div>
+                                <br><br>
+                                <div class="mapa-titulo" id="mapa-titulo"></div>
+                                <br>
+                                <div style="display: flex; justify-content: center; min-width: fit-content;">
+                                    <div id="opciones-container">
+                                    </div>
+                                </div>
                             </div>
                         </li>
                         <li class="t-content">
                             <%- include('../partials/hitos') %>
                         </li>
-                        <% if(tipo != 4) { %>
+                        <% if(tipo != 4 && tipo != 1) { %>
                             <li class="t-content">
                                 <%- include('../partials/nuevoHito') %>
                             </li>
@@ -94,6 +105,8 @@
                 $('#hito-hashtags').select2({
                 theme:"bootstrap"
                 })
+
+                
                 
                 fetch('/api/sessiondata')
                 .then(response => response.json())
@@ -118,7 +131,8 @@
                 .then(response => response.json())
                 .then(result => {
                     crearSelects(result, selectFiltrosEjes, selectFiltrosObjetivos, selectFiltrosLineas, selectFiltrosPlanesdeaccion)
-                    crearMapa(result)
+                    
+                    new Mapa(result).cargarEjes()
                 })
                 .catch(err => {
                     console.error(err);

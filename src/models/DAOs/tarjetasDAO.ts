@@ -28,8 +28,8 @@ export default class tarjetasDAO extends contenedorSQL {
                 tarjetascuerpo: data.cuerpo,
                 tarjetasexpediente: data.expediente,
                 tarjetasactoadministrativo: data.actoadministrativo,
-                tarjetastags: data.tags,
-                tarjetasestado: 1
+                tarjetasestado: 1,
+                tarjetasultmodusuario: data.usuario
             })
             return 'ok'
         }
@@ -38,12 +38,13 @@ export default class tarjetasDAO extends contenedorSQL {
             return 'error'
         }
     }
-    public async aprobarTarjeta(idTarjeta) {
+    public async aprobarTarjeta(idTarjeta: number, idUsuario: number | null) {
         try {
             await this.knex(this.tabla)
             .where({ idtarjetas: idTarjeta })
             .update({
-                tarjetasestado: 1
+                tarjetasestado: 1,
+                tarjetasultmodusuario: idUsuario
             })
             return 'ok'
         } 
@@ -52,12 +53,13 @@ export default class tarjetasDAO extends contenedorSQL {
             return 'error'
         }
     }
-    public async rechazarTarjeta(idTarjeta: number) {
+    public async rechazarTarjeta(idTarjeta: number, idUsuario: number | null) {
         try {
             await this.knex(this.tabla)
             .where({ idtarjetas: idTarjeta })
             .update({
-                tarjetasestado: 0
+                tarjetasestado: 0,
+                tarjetasultmodusuario: idUsuario
             })
             return 'ok'
         } 
@@ -66,18 +68,28 @@ export default class tarjetasDAO extends contenedorSQL {
             return 'error'
         }
     }
-    public async evaluarTarjeta(idTarjeta: number) {
+    public async evaluarTarjeta(idTarjeta: number, idUsuario: number | null) {
         try {
             await this.knex(this.tabla)
             .where({ idtarjetas: idTarjeta })
             .update({
-                tarjetasestado: 2
+                tarjetasestado: 2,
+                tarjetasultmodusuario: idUsuario
             })
             return 'ok'
         } catch(err) {
             logger.error('Error en tarjetasDAO-evaluarTarjeta: ' +err)
             return 'error'
         }
+    }
+
+    public async obtenerIdPorTitulo(titulo : string) {
+        return await this.knex(this.tabla)
+        .where({tarjetastitulo: titulo})
+        .first()
+        .then((result: any)=> {
+            return result.idtarjetas;
+        })
     }
  
 }

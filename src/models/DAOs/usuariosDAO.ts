@@ -33,7 +33,7 @@ export class usuariosDAO extends contenedorSQL {
         }
     }
 
-    private async obtenerPorId(id: number): Promise<any> {
+    private async obtenerPorId(id?: number): Promise<any> {
         try{
             let result: IUser | null;
             return await this.knex(this.tabla)
@@ -53,6 +53,13 @@ export class usuariosDAO extends contenedorSQL {
         catch(err) {
             logger.error("Error en usuariosDAO-obtenerPorId: " + err);
         }
+    }
+
+    async obtenerNombrePorId(id?: number) {
+        return await this.obtenerPorId(id)
+        .then((result: any) => {
+            return result.usuariosnombre
+        })
     }
 
     public async validarNombre(nombre: string): Promise<any> {

@@ -1,6 +1,5 @@
 //*--------------------------- NAVBAR -------------------------*/
 
-
 function closeOffcanvas() {
     // Close the opend dropdown
     document.getElementById('off-canvas-nav').className = 'off-canvas oc-close';
@@ -217,7 +216,7 @@ function crearSelects(data, selectEjes, selectObjetivos, selectLineas, selectPla
 
 
 async function obtenerTarjetas() {
-    return fetch('http://localhost:8080/api/tarjetas')
+    return fetch('/api/tarjetas')
     .then(response => response.json())
     .then(result => {
         return result
@@ -246,160 +245,403 @@ function cerrarModal(id) {
 //*------------------------------------------------ MAPA ----------------------------------------------*//
 
 const mapa = document.getElementById('mapa')
-const ejesContainer = document.getElementById('ejes-container');
+const opcionesContainer = document.getElementById('opciones-container');
+const barraDirecciones = document.getElementById('barra-direcciones');
+const mapaReferencias = document.getElementById('mapa-referencias');
+const mapaTitulo = document.getElementById('mapa-titulo')
 
-async function crearMapa(data) {
+class Mapa {
 
-    let tarjetas = await obtenerTarjetas()
+    idEje
+    eje
+    idObjetivo
+    objetivo
+    idLinea
+    linea
+    idPlan
+    plan
+    area
+    tarjetas
 
-    for (const eje of data.ejes) {
-        ejesContainer.innerHTML += `
-        <details>
-            <summary class="eje eje-${eje.idejes}" id="eje-${eje.idejes}">
-                ${eje.ejesnombre}
-            </summary>
-        </details>
-        `
+    constructor(data) {
+
+        this.data = data
+
+        obtenerTarjetas()
+        .then(result => {
+
+            this.tarjetas = result
+
+        })
+        
     }
 
-    let ejes = ejesContainer.children;
+    cargarTitulo(titulo) {
 
-    for (const e of ejes) {
+        mapaTitulo.innerHTML = `
+        
+            <h5>${titulo}</h5>
+        `
 
-        let idEje = e.children[0].id.split('-')[1];
+    }
 
-        let objetivos = data.objetivos.filter(obj => obj.objetivoseje == idEje);
+    cargarEjes() {
 
-        let objetivosContainer = document.createElement('div')
+        this.cargarTitulo('Seleccionar Eje')
 
-        objetivosContainer.className = "objetivos-container"
-            
+        barraDirecciones.innerHTML = `
+        <span id="direcciones-eje">Eje</span>
+        `
+
+        mapaReferencias.innerHTML = ''
+
+        opcionesContainer.innerHTML = '';
+
+        for (const eje of this.data.ejes) {
+
+            opcionesContainer.innerHTML += `
+                <div class="mapa-opciones" id="eje-${eje.idejes}">
+                    ${eje.ejesnombre}
+                </div>
+            `
+
+        }
+    
+        let ejes = opcionesContainer.children;
+    
+        for (const e of ejes) {
+    
+            e.onclick = () => {
+
+                let idEje = e.id.split('-')[1];
+
+                this.eje = e.innerText;
+                this.idEje = idEje
+
+                this.cargarObjetivos()
+
+            }
+
+        }
+     
+    }
+
+    cargarObjetivos() {
+
+        this.cargarTitulo('Seleccionar Objetivo Estratégico')
+
+        barraDirecciones.innerHTML =`
+        <span id="direcciones-eje">Eje</span>
+        > <span id="direcciones-objetivo">Objetivo Estratégico</span>
+        `
+
+        let direccionesEje= document.getElementById('direcciones-eje');
+
+        direccionesEje.onclick = () => {
+
+            this.cargarEjes()
+
+        }
+        
+        direccionesEje.className = 'direcciones-link';
+        
+
+        mapaReferencias.innerHTML = `<p class="small"><b>Eje: </b>${this.eje}</p>`;
+
+        let objetivos = this.data.objetivos.filter(obj => obj.objetivoseje == this.idEje);
+
+        opcionesContainer.innerHTML = '';
+
         for (const obj of objetivos) {
-            objetivosContainer.innerHTML += `
-                <details>
-                    <summary class="objetivo eje-${idEje}" id="objetivo-${obj.idobjetivos}">
-                        ${obj.objetivosnombre}
-                    </summary>
-                </details>
+
+            opcionesContainer.innerHTML += `
+
+                <div class="mapa-opciones" id="objetivo-${obj.idobjetivos}">
+                    ${obj.objetivosnombre}
+                </div>
             `
         }
 
-        e.append(objetivosContainer)
+        for (const objetivo of opcionesContainer.children) {
 
-        let objetivosHtml = objetivosContainer.children
-
-        for (const obj of objetivosHtml) {
-
-            let idObjetivo = obj.children[0].id.split('-')[1];
-
-            let lineas = data.lineas.filter(linea => linea.lineasobjetivo == idObjetivo);
-        
-            let lineasContainer = document.createElement('div');
-
-            lineasContainer.className="lineas-container";
-        
-            for (const linea of lineas) {
-        
-                lineasContainer.innerHTML += `
-                <details>
-                    <summary class="linea eje-${idEje}" id="linea-${linea.idlineas}">${linea.lineasnombre}</summary>
-                </details> 
-                `
-            }
-
-            obj.append(lineasContainer)
-
-            let lineasHtml = lineasContainer.children;
-        
-            for (const linea of lineasHtml) {
-        
-                let idLinea = linea.children[0].id.split('-')[1];
-
-                let planes = data.planesDeAccion.filter(plan => plan.planesdeaccionlinea == idLinea)
+            let idObjetivo = objetivo.id.split('-')[1];
             
-                let planesContainer = document.createElement('div');
+            objetivo.onclick = () => {
 
-                planesContainer.className="planes-container";
-                planesContainer.id ="planes-container"
+                this.objetivo = objetivo.innerText;
+                this.idObjetivo = idObjetivo;
 
-                for (const plan of planes) {
+                this.cargarLineas()
 
-                    planesContainer.innerHTML += `
-                        <details>
-                            <summary class="plan" id="plan-${plan.idplanesdeaccion}">
-                                ${plan.planesdeaccionnombre}
-                            </summary>
-                        </details>
-                    `
-                }
-
-                linea.append(planesContainer)
-
-                let planesHtml = planesContainer.children;
-
-                for (const plan of planesHtml) {
-
-                    let idPlan = plan.children[0].id.split('-')[1];
-
-                    let tarjetasFiltradas = tarjetas.filter(t => t.tarjetasplandeaccion == idPlan)
-
-                    let tarjetasContainer = document.createElement('div');
-
-                    tarjetasContainer.className= "tarjetas-container";
-
-                    if(tarjetasFiltradas.length) {
-
-                        tarjetasContainer.innerHTML = `
-                            <table class="table">
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Título</th>
-                                    <th>Área</th>
-                                </tr>
-                            </table>
-                    
-
-                        `
-                        for (const t of tarjetasFiltradas) {
-                            tarjetasContainer.children[0].innerHTML += `
-                                <tr>
-                                    <td>${new Date(t.tarjetasfecha).toLocaleDateString()}</td>
-                                    <td>
-                                        <button class="mapa-titulo" onclick="abrirModal('modal-${t.idtarjetas}');">${t.tarjetastitulo}</button>
-                                        <div id="modal-${t.idtarjetas}" class="modal">
-                                          <div class="modal-content">
-                                            <div class="boton-cerrar">
-                                                <button class="close" onclick="cerrarModal('modal-${t.idtarjetas}')">&times;</button>
-                                            </div>
-                                            <div class="card" id="t-${t.idtarjetas}">
-                                                <div class="card-body">
-                                                    <p class="text-muted">${t.tarjetasfecha}</p>
-                                                    <h5 class="card-title contenido">${t.tarjetastitulo}</h5>
-                                                    <p class="card-text contenido">${t.tarjetascuerpo}</p>
-                                                    <br>
-                                                    <p class="text-muted small">${t.tarjetasexpediente ? '<b>Expediente:</b>' + item.tarjetasexpediente : ''}</p>
-                                                    <p class="text-muted small">${t.tarjetasactoadministrativo ? '<b>Acto Administrativo:</b>' + item.tarjetasactoadministrativo : ''}</p>
-                                                    <p class="text-muted small"><b>Palabras clave: </b>${t.tarjetastags}</p>
-                                                    <p class="text-muted small"><b>Area: </b>${t.areasnombre}</p>
-                                                </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                    </td>
-                                    <td>${t.areasnombre}</td>
-                                </tr>
-                            
-                            `
-                        }   
-                    } else {
-                        tarjetasContainer.innerHTML = '<p class="small">Aún no hay tarjetas cargadas...</p>'
-                    }
-                    plan.append(tarjetasContainer)
-                }
             }
-        }  
+        }
+
     }
-}     
+
+    cargarLineas() {
+
+        this.cargarTitulo('Seleccionar Línea Estratégica')
+
+        barraDirecciones.innerHTML = `
+        <span id="direcciones-eje" class="direcciones-link">Eje</span>
+        > <span id="direcciones-objetivo" class="direcciones-link">Objetivo Estratégico</span>
+        > <span id="direcciones-linea">Linea Estratégica</span>
+        `
+
+        let direccionesobjetivo = document.getElementById('direcciones-objetivo');
+
+        direccionesobjetivo.onclick = () => {
+
+            this.cargarObjetivos()
+
+        }
+
+        let direccionesEje = document.getElementById('direcciones-eje')
+
+        direccionesEje.onclick = () => {
+
+            this.cargarEjes()
+
+        }
+
+        mapaReferencias.innerHTML = `
+        <p class="small"><b>Eje: </b>${this.eje}</p>
+        <p class="small"><b>Objetivo Estratégico: </b>${this.objetivo}</p>
+        
+        `;
+
+        let lineas = this.data.lineas.filter(linea => linea.lineasobjetivo == this.idObjetivo);
+
+        opcionesContainer.innerHTML = ''
+
+        for (const linea of lineas) {
+
+            opcionesContainer.innerHTML += `
+            <div class="mapa-opciones" id="linea-${linea.idlineas}">${linea.lineasnombre}</div>
+            `
+        }
+
+        document.getElementById('direcciones-objetivo').onclick = () => {
+
+            barraDirecciones.innerHTML = `
+                <a href="/tse">> Eje:</a>${this.eje}
+            `
+
+            this.cargarObjetivos()
+
+        }
+
+        for (const l of opcionesContainer.children) {
+
+            l.onclick = () => {
+
+                this.idLinea = l.id.split('-')[1];
+                this.linea = l.innerText;
+
+                this.cargarPlanes()
+
+            }
+
+        }
+
+    }
+
+    cargarPlanes() {
+
+        this.cargarTitulo('Seleccionar Plan de Acción')
+
+        barraDirecciones.innerHTML = `
+        <span id="direcciones-eje" class="direcciones-link">Eje</span>
+        > <span id="direcciones-objetivo" class="direcciones-link">Objetivo Estratégico</span>
+        > <span id="direcciones-linea" class="direcciones-link">Linea Estratégica</span>
+        > <span id="direcciones-plan">Plan de Acción</span>
+        `
+        
+
+        document.getElementById('direcciones-linea').onclick = () => {
+
+            this.cargarLineas()
+
+        }
+        document.getElementById('direcciones-objetivo').onclick = () => {
+
+            this.cargarObjetivos()
+        }
+
+        document.getElementById('direcciones-eje').onclick = () =>  {
+
+            this.cargarEjes()
+
+        }
+
+        mapaReferencias.innerHTML = `
+        <p class="small"><b>Eje: </b>${this.eje}</p>
+        <p class="small"><b>Objetivo Estratégico: </b>${this.objetivo}</p>
+        <p class="small"><b>Linea Estratégica: </b>${this.linea}</p>`;
+
+        let planes = this.data.planesDeAccion.filter(plan => plan.planesdeaccionlinea == this.idLinea);
+
+        opcionesContainer.innerHTML = ''
+
+        for (const p of planes) {
+
+            opcionesContainer.innerHTML += `
+            <div class="mapa-opciones" id="plan-${p.idplanesdeaccion}">${p.planesdeaccionnombre}</div>
+            `
+            
+        }
+
+        for (const plan of opcionesContainer.children) {
+
+            plan.onclick = () => {
+
+                this.idPlan = plan.id.split('-')[1];
+                this.plan = plan.innerText;
+
+                this.cargarTarjetas()
+
+            }
+
+        }
+
+    }
+
+    cargarTarjetas() {
+
+        this.cargarTitulo('Fichas de Gestión');
+
+        barraDirecciones.innerHTML = `
+        <span id="direcciones-eje" class="direcciones-link">Eje</span>
+        > <span id="direcciones-objetivo" class="direcciones-link">Objetivo Estratégico</span>
+        > <span id="direcciones-linea" class="direcciones-link">Linea Estratégica</span>
+        > <span id="direcciones-plan" class="direcciones-link">Plan de Acción</span>
+        > <span id="direcciones-plan">Fichas de Gestión</span>
+        `
+
+        document.getElementById('direcciones-linea').onclick = () => {
+
+            this.cargarLineas()
+
+        }
+        document.getElementById('direcciones-objetivo').onclick = () => {
+
+            this.cargarObjetivos()
+        }
+
+        document.getElementById('direcciones-eje').onclick = () =>  {
+
+            this.cargarEjes()
+
+        }
+        document.getElementById('direcciones-plan').onclick = () => {
+
+            this.cargarPlanes()
+
+        }
+
+        let tarjetasFiltradas = this.tarjetas.filter(t => t.tarjetasplandeaccion == this.idPlan);
+
+        console.log(tarjetasFiltradas);
+
+        this.area = `${tarjetasFiltradas[0].areasdescripcion } (${tarjetasFiltradas[0].areasnombre})`
+
+        mapaReferencias.innerHTML = `
+        <p class="small"><b>Eje: </b>${this.eje}</p>
+        <p class="small"><b>Objetivo Estratégico: </b>${this.objetivo}</p>
+        <p class="small"><b>Linea Estratégica: </b>${this.linea}</p>
+        <p class="small"><b>Plan de Acción: </b>${this.plan}</p>
+        <p class="small"><b>Área: </b>${this.area}</p>
+        `;
+
+        let tarjetasContainer = document.createElement('div');
+
+        tarjetasContainer.className= "tarjetas-container";
+
+        opcionesContainer.innerHTML = ''
+
+        if(tarjetasFiltradas.length) {
+
+            tarjetasContainer.innerHTML = `
+                <table class="table" id="mapa-fichas">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Título</th>
+                            <th>Expediente</th>
+                            <th>Acto Administrativo</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabla-fichas">
+                    
+                    </tbody>
+                </table>
+                <div id="modals"></div>
+        
+            `
+
+            opcionesContainer.append(tarjetasContainer)
+
+            let filas = '';
+            let modals = '';
+
+            for (const t of tarjetasFiltradas) {
+
+                filas += `
+                    <tr class="mapa-ficha" onclick="abrirModal('modal-${t.idtarjetas}');">
+                        <td>${moment(t.tarjetasfecha).format('DD/MM/YYYY')}</td>
+                        <td>${t.tarjetastitulo}</td>
+                        <td>${t.tarjetasexpediente}</td>
+                        <td>${t.tarjetasactoadministrativo}</td>
+                    </tr>
+              
+                `
+                modals += `<div id="modal-${t.idtarjetas}" class="modal">
+                                <div class="modal-content">
+                                    <div class="boton-cerrar">
+                                        <button class="close" onclick="cerrarModal('modal-${t.idtarjetas}')">&times;</button>
+                                    </div>
+                                    <div class="card" id="t-${t.idtarjetas}">
+                                        <div class="card-body">
+                                            <p class="text-muted">${moment(t.tarjetasfecha).format('DD/MM/YYYY')}</p>
+                                            <h5 class="card-title contenido">${t.tarjetastitulo}</h5>
+                                            <p class="card-text contenido">${t.tarjetascuerpo}</p>
+                                            <br>
+                                            <p class="text-muted small">${t.tarjetasexpediente ? '<b>Expediente:</b>' + item.tarjetasexpediente : ''}</p>
+                                            <p class="text-muted small">${t.tarjetasactoadministrativo ? '<b>Acto Administrativo:</b>' + item.tarjetasactoadministrativo : ''}</p>
+                                            <p class="text-muted small"><b>Palabras clave: </b>${t.tarjetastags}</p>
+                                            <p class="text-muted small"><b>Area: </b>${t.areasnombre}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+                
+            } 
+
+            document.getElementById('tabla-fichas').innerHTML = filas
+            document.getElementById('modals').innerHTML = modals
+
+        } else {
+            tarjetasContainer.innerHTML = '<p class="small">Aún no hay tarjetas cargadas...</p>'
+            opcionesContainer.append(tarjetasContainer)
+
+        }
+
+        $.fn.dataTable.moment('DD/MM/YYYY');
+
+        $('#mapa-fichas').dataTable({
+                "order": [[0, "desc"]],
+                "pageLength": 25,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                },
+                // "scrollX": true,
+                // "responsive": true,
+        })
+
+    }
+
+}
+
 
 //*------------------------------------- TAGS -------------------------------------*//
 
@@ -491,17 +733,34 @@ async function aplicarFiltro(variable, valor){
     }
 
     let tags = document.getElementsByClassName('filtro-tag');
-   
+
+    let area = document.getElementById('filtro-area');
+
+    let areaElegida = area.options[area.selectedIndex].value;
+
     let coincidencia;
 
+    if(areaElegida.length) {
+
+        tarjetasFiltradas1 = tarjetasFiltradas1.filter(t => t.tarjetasareas == areaElegida)
+    }
+
     if(tags.length){
+
         let tagsElegidos = [];
+
         for(let i = 0; i < tags.length; i++){
             tagsElegidos.push(tags[i].innerText)
         }
+
         for (const t of tarjetasFiltradas1) {
-            let palabrasClave = t.tarjetastags.split(', ')
+
+            console.log(t);
+
+            let palabrasClave = t.tarjetastags
+
             for (const i of tagsElegidos) {
+
                 if(palabrasClave.find(elem => elem === i)){
                     coincidencia = true;
                 } else {
@@ -509,11 +768,42 @@ async function aplicarFiltro(variable, valor){
                     break;
                 }
             }
+
             if(coincidencia)tarjetasFiltradas2.push(t)
         }
         paginarTarjetas(tarjetasFiltradas2)
-    }else {
+    } else {
         paginarTarjetas(tarjetasFiltradas1)
+    }
+}
+
+async function buscarTituloDescripcion() {
+
+    let tarjetas = await obtenerTarjetas();
+
+    let valor = document.getElementById('filtro-titulocuerpo').value;
+
+    if(valor.length) {
+
+        let tarjetasFiltradas = [];
+
+        for (const t of tarjetas) {
+            
+            if(
+                (t.tarjetascuerpo.includes(valor))
+                || (t.tarjetastitulo.includes(valor))
+            ) {
+
+                tarjetasFiltradas.push(t)
+
+            }
+        }
+
+        paginarTarjetas(tarjetasFiltradas)
+
+    } else {
+
+        paginarTarjetas(tarjetas)
     }
 
 }
@@ -538,7 +828,7 @@ function simpleTemplating(data) {
                 <p class="text-muted small"><b>Area: </b>${item.areasnombre}</p>
                 <hr>
                 <details>
-                    <summary class="small">Plan estratégico</summary>
+                    <summary class="small desplegable-plan">Plan estratégico</summary>
                     <div>
                         <br>
                         <p class="text-muted small"><b>Eje: </b>${item.ejesnombre}</p>
@@ -603,7 +893,8 @@ function mostrarError(mensaje) {
 }
 
 //*------------------------------------- HITOS -------------------------------------/
-
+const avisoLink = document.getElementById('aviso-link');
+const avisoParrafo = document.getElementById('aviso-parrafo');
 
 const requestOptions = {
     method: 'POST',
@@ -617,6 +908,28 @@ const requestOptions = {
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     // body: JSON.stringify(data) // body data type must match "Content-Type" header
+}
+
+function switchAviso() {
+
+    let opcion = avisoLink.children[1].innerText;
+
+    switch(opcion) {
+
+        case 'Ocultar':
+
+            avisoParrafo.classList.add('noTiene');
+            avisoLink.children[1].innerText = 'Ver'
+            break;
+
+        case 'Ver':
+
+            avisoParrafo.classList.remove('noTiene');
+            avisoLink.children[1].innerText = 'Ocultar'
+            break;
+    }
+
+
 }
 
 function cargarFormEdicion(idTarjeta) {
@@ -716,13 +1029,6 @@ async function guardarYAprobarHito(idTarjeta) {
 
     let form = document.getElementById('form-editarhito-' + idTarjeta);
 
-    let data = {
-        titulo: form.titulo.value,
-        cuerpo: form.cuerpo.value,
-        expediente: form.expediente.value,
-        actoadministrativo: form.actoadministrativo.value,
-    }
-
     let tagContainer = document.getElementById('tags-editarhito-' + idTarjeta);
 
     let tags= [];
@@ -731,7 +1037,13 @@ async function guardarYAprobarHito(idTarjeta) {
         tags.push(child.innerHTML)
     }
 
-    data.tags = tags.join(',')
+    let data = {
+        titulo: form.titulo.value,
+        cuerpo: form.cuerpo.value,
+        expediente: form.expediente.value,
+        actoadministrativo: form.actoadministrativo.value,
+        tags: tags
+    }
 
     if(idTarjeta) {
         
@@ -767,17 +1079,6 @@ async function agregarTarjeta(event) {
 
     let form = new FormData(document.getElementById('form-nuevatarjeta'));
 
-    let body = {
-        eje: document.getElementById('form-nuevohito-ejes').value,
-        objetivo: document.getElementById('form-nuevohito-objetivos').value,
-        linea: document.getElementById('form-nuevohito-lineas').value,
-        plandeaccion: document.getElementById('form-nuevohito-planesdeaccion').value,
-        expediente: form.get('expediente'),
-        actoadministrativo: form.get('actoadministrativo'),
-        titulo: document.getElementById('nuevatarjeta-titulo').value,
-        cuerpo: document.getElementById('nuevatarjeta-cuerpo').value
-    }
-
     let tags = [];
 
     let tagContainer = document.getElementById('nuevohito-tags')
@@ -786,9 +1087,22 @@ async function agregarTarjeta(event) {
         tags.push(child.innerHTML)
     }
 
-    body.tags = tags.join(',')
+    let body = {
+        eje: document.getElementById('form-nuevohito-ejes').value,
+        objetivo: document.getElementById('form-nuevohito-objetivos').value,
+        linea: document.getElementById('form-nuevohito-lineas').value,
+        plandeaccion: document.getElementById('form-nuevohito-planesdeaccion').value,
+        expediente: form.get('expediente'),
+        actoadministrativo: form.get('actoadministrativo'),
+        titulo: document.getElementById('nuevatarjeta-titulo').value,
+        cuerpo: document.getElementById('nuevatarjeta-cuerpo').value,
+        tags: tags
+    }
 
-    if(body.eje && body.objetivo && body.linea && body.plandeaccion && body.tags) {
+    if(
+        (body.eje && body.objetivo && body.linea && body.plandeaccion && body.tags && body.titulo && body.cuerpo) 
+        && body.cuerpo.length <= 500
+        ){
         fetch('/tse/nuevo', {body: JSON.stringify(body), ...requestOptions})
         .then((response) => {
             if(response.status == 200) {
@@ -803,6 +1117,7 @@ async function agregarTarjeta(event) {
         mostrarError('¡campos incompletos!')
     }
 }
+
 
 
 //*------------------------------------ USUARIOS ----------------------------------/

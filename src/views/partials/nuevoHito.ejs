@@ -1,12 +1,52 @@
 
 <div class="box-header">
     <br>
-    <h4 class="titulo">Formulario de declaración de nuevo hito</h4>
+    <h4 class="titulo">Formulario de declaración de nueva ficha</h4>
     <hr>
 </div>
 <div class="box-form">
     <br>
+    <div class="box-aviso">
+        <span onclick="switchAviso();" id="aviso-link" class="aviso-link">
+            <i class="fa-solid fa-triangle-exclamation">&nbsp;</i>
+            <span>Ocultar</span> 
+        </span>
+        <br><br>
+        <p id="aviso-parrafo">Recuerda que la información volcada en la ficha debe ser lo más resumida, concisa y clara posible, teniendo en cuenta su vinculación con un plan de acción particular. Para más información sobre las Fichas de Gestión dirigirse a la sección "info".</p>
+    </div>
+    <br>
+    <br>
     <form onsubmit="agregarTarjeta(event)" id="form-nuevatarjeta" name="form-nuevatarjeta">
+        <div class="mb-3">
+            <label for="titulo" class="form-label">Título *</label>
+            <input type="text" class="form-control" id="nuevatarjeta-titulo" name="titulo" required>
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="cuepro" class="form-label">Descripción <span style="font-size:small;">(máx 500 caracteres)</span> *</label>
+            <textarea name="cuerpo" maxlength="500" class="form-control" id="nuevatarjeta-cuerpo" cols="30" rows="10" required></textarea>
+        </div>
+        <br>
+        <label for="tags" class="form-label">Palabras clave *</label>
+        <select name ="tags" class="form-select" id="hito-hashtags" onchange="agregarTag(event, 'nuevohito-tags', 'hito-tag')" required>
+            <option value selected></option>
+            <% for(let t of tags) { %>
+                <option value="<%= t %>"><%= t %></option>
+            <% } %> 
+        </select>
+        <div class="tag-container" id="nuevohito-tags"></div>
+        <br>
+        <br>
+        <div class="mb-3">
+            <label for="expediente" class="form-label">Expediente</label>
+            <input type="text" class="form-control" name="expediente">
+        </div>
+        <br>
+        <div class="mb-3">
+            <label for="actoadministrativo" class="form-label">Acto administrativo (dispo o reso)</label>
+            <input type="text" class="form-control" name="actoadministrativo">
+        </div>
+        <br>
         <div class="mb-3">
             <label for="eje" class="form-label">1. Eje *</label>
             <select id="form-nuevohito-ejes" class="form-select" name="eje" required>
@@ -31,36 +71,7 @@
             <select id="form-nuevohito-planesdeaccion" class="form-select" name="plandeaccion" required>
             </select>
         </div>
-        <br>
-        <div class="mb-3">
-            <label for="titulo" class="form-label">Título *</label>
-            <input type="text" class="form-control" id="nuevatarjeta-titulo" name="titulo" required>
-        </div>
-        <br>
-        <div class="mb-3">
-            <label for="cuepro" class="form-label">Cuerpo <span style="font-size:small;">(máx 500 caracteres)</span> *</label>
-            <textarea name="cuerpo" class="form-control" id="nuevatarjeta-cuerpo" cols="30" rows="10" required></textarea>
-        </div>
-        <br>
-        <div class="mb-3">
-            <label for="expediente" class="form-label">Expediente</label>
-            <input type="text" class="form-control" name="expediente">
-        </div>
-        <br>
-        <div class="mb-3">
-            <label for="actoadministrativo" class="form-label">Acto administrativo (dispo o reso)</label>
-            <input type="text" class="form-control" name="actoadministrativo">
-        </div>
-        <br>
-        <label for="tags" class="form-label">Palabras clave *</label>
-        <select name ="tags" class="form-select" id="hito-hashtags" onchange="agregarTag(event, 'nuevohito-tags', 'hito-tag')" required>
-            <option value selected></option>
-            <% for(let t of tags) { %>
-                <option value="<%= t.tagsnombre %>"><%= t.tagsnombre %></option>
-            <% } %> 
-        </select>
-        <div class="tag-container" id="nuevohito-tags"></div>
-        <br>
+        <br>     
         <p class="small">
             * Los campos con un asterisco deben completarse obligatoriamente.
         </p>

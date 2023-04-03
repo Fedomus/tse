@@ -28,39 +28,44 @@ export default class tarjetasController {
         if(eje && objetivo && linea && plandeaccion && titulo && cuerpo && tags && nombre) {
             const idArea: number = await this.apiUsuarios.obtenerAreaPorNombre(nombre);
             const autor: number | null = await this.apiUsuarios.obtenerIdPorNombre(nombre);
-            const nuevaTarjeta: ITarjeta = {
-                idtarjetas: null, 
-                tarjetastitulo: titulo,
-                tarjetascuerpo: cuerpo,
-                tarjetastags: tags,
-                tarjetasautor: autor,
-                tarjetasareas: idArea,
-                tarjetasexpediente: expediente,
-                tarjetasactoadministrativo: actoadministrativo,
-                tarjetasejes: eje,
-                tarjetasobjetivos: objetivo,
-                tarjetaslineas: linea,
-                tarjetasplandeaccion: plandeaccion,
-                tarjetasestado: 2,
-                tarjetasfecha: new Date()
+            if(autor) {
+                const nuevaTarjeta: ITarjeta = {
+                    idtarjetas: undefined, 
+                    tarjetastitulo: titulo,
+                    tarjetascuerpo: cuerpo,
+                    tarjetasautor: autor,
+                    tarjetasareas: idArea,
+                    tarjetasexpediente: expediente,
+                    tarjetasactoadministrativo: actoadministrativo,
+                    tarjetasejes: eje,
+                    tarjetasobjetivos: objetivo,
+                    tarjetaslineas: linea,
+                    tarjetasplandeaccion: plandeaccion,
+                    tarjetasestado: 2,
+                    tarjetasfecha: new Date(),
+                    tarjetasultmodusuario: autor
+                }
+                return await this.apiTarjetas.agregarTarjeta(nuevaTarjeta, tags)
+                .then(response => {
+                    if(response == 'tarjeta agregada') {
+                            return res.status(200).redirect('/tse')
+                        }
+                })
+                .catch(err=> {
+                    logger.error('Error en postNuevaTarjeta: ' + err)
+                    return res.status(202).json({result:"error en el servidor"})
+                })
             }
-            return await this.apiTarjetas.agregarTarjeta(nuevaTarjeta)
-            .then(response => {
-                if(response == 'tarjeta agregada') {
-                        return res.status(200).redirect('/tse')
-                    }
-            })
-            .catch(err=> {
-                logger.error('Error en postNuevaTarjeta: ' + err)
-                return res.status(202).json({result:"error en el servidor"})
-            })
         }
     }
 
     public async guardarCambiosYAprobar(req: Request, res: Response){
         let idTarjeta : number = parseInt(req.params.id);
         let data = req.body;
-        if(data.titulo && data.cuerpo && data.tags) {
+        let usuario = req.session.usuario;
+        if(data.titulo && data.cuerpo && data.tags && usuario) {
+            let idUsuario = await this.apiUsuarios.obtenerIdPorNombre(usuario);
+            data.usuario = idUsuario
             return await this.apiTarjetas.guardarCambiosYAprobar(idTarjeta, data)
             .then(response => {
                 if(response == 'ok') return res.status(200).redirect('/admin')
@@ -74,38 +79,51 @@ export default class tarjetasController {
 
     public async rechazarTarjeta(req: Request, res: Response) {
         let idTarjeta : number = parseInt(req.params.id);
-        return await this.apiTarjetas.rechazarTarjeta(idTarjeta)
-        .then(result=> {
-            if(result == 'ok') return res.status(200).redirect('/admin');
-        })
-        .catch(err=> {
-            logger.error('Error en rechazarTarjeta: ' + err)
-            return res.status(202).json({result:"error en el servidor"})
-        })
+        let usuario= req.session.usuario;
+        if(usuario) {
+            let idUsuario = await this.apiUsuarios.obtenerIdPorNombre(usuario);
+            return await this.apiTarjetas.rechazarTarjeta(idTarjeta, idUsuario)
+            .then(result=> {
+                if(result == 'ok') return res.status(200).redirect('/admin');
+            })
+            .catch(err=> {
+                logger.error('Error en rechazarTarjeta: ' + err)
+                return res.status(202).json({result:"error en el servidor"})
+            })
+        }
     }
 
     public async aprobarTarjeta(req: Request, res: Response) {
         let idTarjeta : number = parseInt(req.params.id);
-        return await this.apiTarjetas.aprobarTarjeta(idTarjeta)
-        .then(result=>{
-            if(result == 'ok') return res.status(200).redirect('/admin');
-        })
-        .catch(err=> {
-            logger.error('Error en aprobarTarjeta: ' + err)
-            return res.status(202).json({result:"error en el servidor"})
-        })
+        let usuario = req.session.usuario;
+        if(usuario){
+            let idUsuario = await this.apiUsuarios.obtenerIdPorNombre(usuario);
+            return await this.apiTarjetas.aprobarTarjeta(idTarjeta, idUsuario)
+            .then(result=>{
+                if(result == 'ok') return res.status(200).redirect('/admin');
+            })
+            .catch(err=> {
+                logger.error('Error en aprobarTarjeta: ' + err)
+                return res.status(202).json({result:"error en el servidor"})
+            })
+        }
+
     }
 
     public async evaluarTarjeta(req: Request, res: Response) {
+        let usuario = req.session.usuario;
         let idTarjeta : number = parseInt(req.params.id);
-        return await this.apiTarjetas.evaluarTarjeta(idTarjeta)
-        .then(result=> {
-            if(result == 'ok') return res.status(200).redirect('/admin')
-        })
-        .catch(err=>{
-            logger.error('Error en evaluarTarjeta: ' + err)
-            return res.status(202).json({result:"error en el servidor"})
-        })
+        if(usuario) {
+            let idUsuario = await this.apiUsuarios.obtenerIdPorNombre(usuario);
+            return await this.apiTarjetas.evaluarTarjeta(idTarjeta, idUsuario)
+            .then(result=> {
+                if(result == 'ok') return res.status(200).redirect('/admin')
+            })
+            .catch(err=>{
+                logger.error('Error en evaluarTarjeta: ' + err)
+                return res.status(202).json({result:"error en el servidor"})
+            })
+        }
     }
 }
 
