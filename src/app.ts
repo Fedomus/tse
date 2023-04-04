@@ -3,7 +3,6 @@ import {IRouter} from './interfaces/IRouter';
 import moment from 'moment';
 import logger from "./logger";
 import cluster from 'cluster';
-import * as https from 'node:https';
 
 declare module 'express-session' {
     interface SessionData {
@@ -24,7 +23,6 @@ export class App {
 
     constructor(
         
-        private sslCredentials: object,
         private port: number,
         private modo: string,
         private numCPUs: number,
@@ -34,7 +32,6 @@ export class App {
     
     ) {
         this.app = express()
-        this.sslCredentials = sslCredentials;
         this.port = port;
         this.modoCluster = modo == 'cluster';
         this.numCPUs= numCPUs;
@@ -111,10 +108,6 @@ export class App {
             })
         } else {
             try {
-                // http.createServer()
-                // https.createServer(this.sslCredentials, (req, res) => {
-                //      res.writeHead(200);
-                // }).listen(this.port);
                 this.app.listen(this.port);
                 logger.info(`PID Worker ${process.pid}. Servidor escuchando en puerto ${this.port}`);
             } catch(err) {

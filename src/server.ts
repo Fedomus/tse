@@ -22,16 +22,9 @@ const port: number = args.p
 const modo: string = args.m
 const numCPUs = os.cpus().length
 
-const sslCredentials = {
-    key: ENV.SSL_KEY,
-    cert: ENV.SSL_CERT,
-}
-
 //Se inicia la app
 const routes: Routes = new Routes();
 const app: App = new App(
-
-    sslCredentials,
 
     port,
 
