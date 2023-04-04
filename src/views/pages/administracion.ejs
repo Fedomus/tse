@@ -60,7 +60,7 @@
 
                 $.fn.dataTable.moment('DD/MM/YYYY');
                 
-                let tablas = ['#tablausuarios', '#tablaareas', '#tablatarjetas', '#tablaaprobadas', '#tablarechazadas'];
+                let tablas = ['#tablausuarios', '#tablaareas', '#tablatarjetas', '#tablarechazadas'];
                 for (const tabla of tablas) {
                     $(tabla).DataTable({
                         "order": [[0, "desc"]],
@@ -72,6 +72,25 @@
                         // "responsive": true,
                     });
                 }
+
+                $('#tablaaprobadas').DataTable({
+                    "order": [[0, "desc"]],
+                    "pageLength": 25,
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
+                    },
+                    // "scrollX": true,
+                    // "responsive": true,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        'copyHtml5',
+                        'excelHtml5',
+                        'csvHtml5',
+                        'pdfHtml5'
+                    ]
+                });
+
+                
 
                 let tags= document.getElementsByClassName('hito-tag');
                 for(let i = 0; i < tags.length; i++) {
