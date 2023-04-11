@@ -649,8 +649,7 @@ class Mapa {
                 "pageLength": 25,
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-                },
-                buttons: [ 'copy', 'csv', 'excel' ]
+                }
                 // "scrollX": true,
                 // "responsive": true,
         })
