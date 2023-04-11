@@ -51,7 +51,9 @@ export default class apiController {
                     idplanesdeaccion: row.idplanesdeaccion,
                     planesdeaccionnombre: row.planesdeaccionnombre,
                     planesdeaccionlinea: row.planesdeaccionlinea,
-                    planesdeaccionarea: row.planesdeaccionarea
+                    planesdeaccionarea: row.planesdeaccionarea,
+                    areasnombre: row.areasnombre,
+                    areasdescripcion: row.areasdescripcion
                 })
             }
     

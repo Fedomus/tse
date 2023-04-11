@@ -32,6 +32,7 @@ table {
 	text-transform: uppercase;
 	font-weight: bold;
 	letter-spacing: 0.5px;
+	transition: all ease-in-out 0.3s;
 }
 
 .noTiene {
@@ -86,23 +87,20 @@ footer {
 	background-color: white;
 	text-align: center;
 	padding: 25px;
+	padding-bottom: 50px;
 }
 
 .home-header img {
 	max-width: 750px;
 	max-height: auto;
-	border-radius: 5px;
 }
-.home-header img:hover{
-	box-shadow: 0px 0px 30px 10px rgba(0,0,0,.2);
-}
-
 .home-acerca{
 	background-color: black;
 	color: white;
 	padding: 50px;
 	padding-left: 300px;
 	padding-right: 300px;
+	margin: auto;
 }
 .home-link{
 	text-align: center;
@@ -120,17 +118,40 @@ footer {
 	font-weight: 600;
 	padding: 20px;
 }
-
+.home-link-2{
+	text-align: center;
+	padding: 20px;
+	max-width: 200px;
+	margin: auto;
+	font-size: 15px;
+	background-color: #000;
+	color: white;
+	border-radius: 50px;
+}
+.home-link-2:hover{
+	background-color: #2d2d2d;
+	cursor: pointer;
+}
+.home-link-2 a, .home-link-2 a:hover {
+	color: white;
+}
+.home-link-2 a h5 {
+	font-weight: 600;
+}
 .box-item{
 	max-width: 1200px;
 	display: flex;
 }
 .box-img{
- width: 50%;
+ width: 40%;
+ justify-content: right;
+ padding-right: 50px;
+ display: flex;
+ align-items: center;
 }
 
 .box-img img {
-	height: 200px;
+	height: 100px;
 	width: auto;
 }
 .box-text{
@@ -168,11 +189,12 @@ footer {
 		text-align: center;
 	}
 	.box-text p {
-		font-size: normal;
+		font-size: small;
 	}
 	.home-link {
 		padding: 0px;
 	}
+
 	.home-link a h5{
 		font-size: 17px;
 		padding: 15px;
@@ -192,6 +214,7 @@ footer {
 .box-mapa{
 	padding-left: 20px;
 	padding-right: 20px;
+	padding-bottom: 50px;
 	max-width: 1200px;
 	margin: auto;
 }
@@ -492,9 +515,9 @@ footer {
 	margin-right: 20px;
 	color: white;
 	background-color: var(--azul-principal);
+	transition: all ease-in-out 0.3s;
   }
 
-  
   .main-content {
 	float: right;
 	transition: width 0.3s ease;
@@ -1113,8 +1136,30 @@ footer {
 	align-items: center;
 }
 
-
-
+.dt-button{
+	color: black;
+	background-color: #e0e0e0;
+    cursor: default;
+	padding: 8px 13px;
+    text-decoration: none;
+    border: 2px solid black;
+	font-size: 0.7rem;
+    line-height: 24px;
+    font-weight: 600;
+    text-align: center;
+	min-width: 14px;
+	margin: 0 5px 0 0;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+.dt-button:hover{
+	color: #000;
+	cursor: pointer;
+	background-color: #989797;
+}
+.dataTables-filter label input {
+	color: #000;
+}
 /**************************** MODAL ********************/
 .modal {
 	display: none; 

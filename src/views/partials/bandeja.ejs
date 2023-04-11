@@ -94,8 +94,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="noTiene" id="<%= 'form-editarhito-' + t.idtarjetas %>">
-                                    <form>
+                                <div class="noTiene" id="<%= 'editar-ficha-' + t.idtarjetas %>">
+                                    <form id="<%= 'form-editarhito-' + t.idtarjetas %>">
                                         <div class="mb-3">
                                             <label for="titulo" class="form-label">Título</label>
                                             <input type="text" value="<%= t.tarjetastitulo %>" id="form-titulo" class="form-control" name="titulo" required>
@@ -192,7 +192,7 @@
 
     function abrirModalFicha(idTarjeta) {
 
-        let formContainer = document.getElementById('form-editarhito-' + idTarjeta);
+        let formContainer = document.getElementById('editar-ficha-' + idTarjeta);
 
         let tarjetaContainer = document.getElementById('tarjetaevaluandose-' + idTarjeta);
 

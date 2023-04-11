@@ -287,6 +287,8 @@ class Mapa {
 
     cargarEjes() {
 
+        this.idEje = '';
+
         this.cargarTitulo('Seleccionar Eje')
 
         barraDirecciones.innerHTML = `
@@ -327,6 +329,8 @@ class Mapa {
     }
 
     cargarObjetivos() {
+
+        this.idObjetivo = '';
 
         this.cargarTitulo('Seleccionar Objetivo Estratégico')
 
@@ -379,6 +383,8 @@ class Mapa {
     }
 
     cargarLineas() {
+
+        this.idLinea = '';
 
         this.cargarTitulo('Seleccionar Línea Estratégica')
 
@@ -448,6 +454,8 @@ class Mapa {
 
     cargarPlanes() {
 
+        this.idPlan = '';
+
         this.cargarTitulo('Seleccionar Plan de Acción')
 
         barraDirecciones.innerHTML = `
@@ -508,6 +516,8 @@ class Mapa {
 
     cargarTarjetas() {
 
+        this.area = '';
+
         this.cargarTitulo('Fichas de Gestión');
 
         barraDirecciones.innerHTML = `
@@ -539,11 +549,15 @@ class Mapa {
 
         }
 
-        let tarjetasFiltradas = this.tarjetas.filter(t => t.tarjetasplandeaccion == this.idPlan);
+        this.data.planesDeAccion.filter(plan => {
 
-        console.log(tarjetasFiltradas);
+            if(plan.idplanesdeaccion == this.idPlan) {
 
-        this.area = `${tarjetasFiltradas[0].areasdescripcion } (${tarjetasFiltradas[0].areasnombre})`
+                this.area = `${plan.areasdescripcion} (${plan.areasnombre})`
+            }
+
+        })
+
 
         mapaReferencias.innerHTML = `
         <p class="small"><b>Eje: </b>${this.eje}</p>
@@ -552,6 +566,8 @@ class Mapa {
         <p class="small"><b>Plan de Acción: </b>${this.plan}</p>
         <p class="small"><b>Área: </b>${this.area}</p>
         `;
+
+        let tarjetasFiltradas = this.tarjetas.filter(t => t.tarjetasplandeaccion == this.idPlan);
 
         let tarjetasContainer = document.createElement('div');
 
@@ -621,7 +637,7 @@ class Mapa {
             document.getElementById('modals').innerHTML = modals
 
         } else {
-            tarjetasContainer.innerHTML = '<p class="small">Aún no hay tarjetas cargadas...</p>'
+            tarjetasContainer.innerHTML = '<p class="small">Aún no hay fichas cargadas...</p>'
             opcionesContainer.append(tarjetasContainer)
 
         }
@@ -634,6 +650,7 @@ class Mapa {
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
                 },
+                buttons: [ 'copy', 'csv', 'excel' ]
                 // "scrollX": true,
                 // "responsive": true,
         })
@@ -754,8 +771,6 @@ async function aplicarFiltro(variable, valor){
         }
 
         for (const t of tarjetasFiltradas1) {
-
-            console.log(t);
 
             let palabrasClave = t.tarjetastags
 
@@ -934,7 +949,7 @@ function switchAviso() {
 
 function cargarFormEdicion(idTarjeta) {
 
-    let formContainer = document.getElementById('form-editarhito-' + idTarjeta);
+    let formContainer = document.getElementById('editar-ficha-' + idTarjeta);
 
     let tarjetaContainer = document.getElementById('tarjetaevaluandose-' + idTarjeta);
 

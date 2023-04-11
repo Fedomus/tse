@@ -72,6 +72,9 @@ export default class apiUsuarios {
                     case 17: 
                         tipo = 4;
                         break;
+                    case 19: 
+                        tipo = 5;
+                        break;
                     default: 
                         tipo = 3;
                         break;

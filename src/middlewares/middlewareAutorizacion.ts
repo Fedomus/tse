@@ -11,7 +11,7 @@ export function midGeneral(req: Request, res: Response, next: any) {
 
 export function midGG(req: Request, res: Response, next: any) {
 
-    if(req.session.tipo == 2 || req.session.tipo == 1) next()
+    if(req.session.tipo == 2 || req.session.tipo == 5) next()
 
     else return res.redirect('/')
 }
