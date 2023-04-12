@@ -1159,8 +1159,8 @@ footer {
 	cursor: pointer;
 	background-color: #989797;
 }
-.dataTables-filter label input {
-	color: #000;
+.dataTables_filter label input {
+	color: black;
 }
 /**************************** MODAL ********************/
 .modal {
