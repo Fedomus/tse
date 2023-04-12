@@ -3,7 +3,7 @@
         <%- include('../partials/head') %>
     </head>
     <body>
-        <% if(tipo == 2 || tipo == 5) { %>
+        <% if(tipo == 2) { %>
             <%- include('../partials/navbarMayor'); %>
         <% } %>
         <div class="t-container">
@@ -16,7 +16,7 @@
                 <ul class="t-tabs">
                     <li class="t-tab"><i class="fa-solid fa-map"></i>&nbsp;&nbsp;&nbsp;Mapa</li> 
                     <li class="t-tab"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;&nbsp;Fichas</li>  
-                    <% if(tipo != 4 && tipo != 1 && tipo != 5) { %>
+                    <% if(tipo != 4 && tipo != 1) { %>
                         <li class="t-tab"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;&nbsp;Nueva</li> 
                     <% } %>
                     <li class="t-tab"><i class="fa-solid fa-chart-simple"></i>&nbsp;&nbsp;&nbsp;Estadísticas</li>
@@ -112,7 +112,7 @@
                 .then(response => response.json())
                 .then(result => {
                     sessionStorage.setItem('area', result.area)
-                    if(result.area != 17 && result.area != 18 && result.area != 8 && result.area != 19) {
+                    if(result.area != 17 && result.area != 18 && result.area != 8) {
                         fetch('/api/pegi2')
                         .then(response => response.json())
                         .then(result => {

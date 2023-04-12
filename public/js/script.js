@@ -637,7 +637,7 @@ class Mapa {
             document.getElementById('modals').innerHTML = modals
 
         } else {
-            tarjetasContainer.innerHTML = '<p class="small">Aún no hay fichas cargadas...</p>'
+            tarjetasContainer.innerHTML = '<p class="small">Aún no hay fichas...</p>'
             opcionesContainer.append(tarjetasContainer)
 
         }
