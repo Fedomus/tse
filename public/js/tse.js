@@ -444,8 +444,8 @@ class Mapa {
                                             <h5 class="card-title contenido">${t.tarjetastitulo}</h5>
                                             <p class="card-text contenido">${t.tarjetascuerpo}</p>
                                             <br>
-                                            <p class="text-muted small">${t.tarjetasexpediente ? '<b>Expediente:</b>' + item.tarjetasexpediente : ''}</p>
-                                            <p class="text-muted small">${t.tarjetasactoadministrativo ? '<b>Acto Administrativo:</b>' + item.tarjetasactoadministrativo : ''}</p>
+                                            <p class="text-muted small">${t.tarjetasexpediente ? '<b>Expediente:</b>' + t.tarjetasexpediente : ''}</p>
+                                            <p class="text-muted small">${t.tarjetasactoadministrativo ? '<b>Acto Administrativo:</b>' + t.tarjetasactoadministrativo : ''}</p>
                                             <p class="text-muted small"><b>Palabras clave: </b>${t.tarjetastags}</p>
                                             <p class="text-muted small"><b>Area: </b>${t.areasnombre}</p>
                                         </div>
