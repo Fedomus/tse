@@ -21,8 +21,6 @@ export default class apiAreas {
         catch(err) {
             logger.error('Error en apiAreas-obtenerNombrePorId: ' + err)
         }
-       
-
     }
 
     public async editarArea(idArea, body) {

@@ -86,64 +86,8 @@
                 </section>
             </main>
         </div>
-        <script src="/js/script.js"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", async () => {
-        
-                loadNavbar()
-            
-                easyTabs()
-    
-                closeOffcanvas();
-    
-                paginarTarjetas(await obtenerTarjetas())
-    
-                $('#filtro-hashtags').select2({
-                theme:"bootstrap"
-                })
-                
-                $('#hito-hashtags').select2({
-                theme:"bootstrap"
-                })
-
-                
-                
-                fetch('/api/sessiondata')
-                .then(response => response.json())
-                .then(result => {
-                    sessionStorage.setItem('area', result.area)
-                    if(result.area != 17 && result.area != 18 && result.area != 8) {
-                        fetch('/api/pegi2')
-                        .then(response => response.json())
-                        .then(result => {
-
-                            crearSelects(result, selectFormEjes, selectFormObjetivos, selectFormLineas, selectFormPlanesdeaccion)
-                        })
-                        .catch(err => {
-                            console.error(err);
-                        })
-                    }
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-                
-                fetch('/api/pegi')
-                .then(response => response.json())
-                .then(result => {
-
-                    new Mapa(result).cargarEjes()
-
-                    crearSelects(result, selectFiltrosEjes, selectFiltrosObjetivos, selectFiltrosLineas, selectFiltrosPlanesdeaccion)
-                    
-                })
-                .catch(err => {
-                    console.error(err);
-                })
-
-                
-            });
-        </script>
         <%- include('../partials/footer') %> 
+        <script src="/js/globales.js"></script>
+        <script src="/js/tse.js"></script>
     </body>
 </html>

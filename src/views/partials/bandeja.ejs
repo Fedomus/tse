@@ -181,10 +181,14 @@
             tags.push(child.innerHTML)
         }
 
-        data.tags = tags.join(',')
+        data.tags = tags
 
         if(data.titulo && data.cuerpo && data.tags) {
-            abrirModal('modal-guardaryaprobarhito-' + idTarjeta)
+            if(data.tags.length < 4 || data.tags.length > 10){
+                mostrarError('¡deben haber entre 4 y 10 palabras clave!');
+            } else {
+                abrirModal('modal-guardaryaprobarhito-' + idTarjeta)
+            }
         } else {
             mostrarError('¡Campos incompletos!');
         }

@@ -34,9 +34,19 @@ table {
 	letter-spacing: 0.5px;
 	transition: all ease-in-out 0.3s;
 }
-
 .noTiene {
 	display: none !important;
+}
+.ir-arriba{
+	display:none;
+	background-repeat:no-repeat;
+	font-size:20px;
+	color:black;
+	cursor:pointer;
+	position:fixed;
+	bottom:10px;
+	right:10px;
+	z-index:2;
 }
 
 /****************************************************** FOOTER ***************************************************/
@@ -108,32 +118,37 @@ footer {
 	font-size: 15px;
 }
 .home-link:hover{
-	background-color: #2d2d2d;
+	background-color: white;
+	border-color: #000;
 }
 .home-link a h5 {
 	color: white;
 	font-weight: 600;
 	padding: 20px;
 }
+.home-link a h5:hover{
+	color: black;
+}
 .home-link-2{
 	text-align: center;
-	padding: 20px;
 	max-width: 200px;
 	margin: auto;
 	font-size: 15px;
-	background-color: #000;
-	color: white;
-	border-radius: 50px;
+	border: 5px solid #000;
 }
 .home-link-2:hover{
-	background-color: #2d2d2d;
+	background-color: black;
+	border-color: white;
+	color: white;
 	cursor: pointer;
 }
-.home-link-2 a, .home-link-2 a:hover {
-	color: white;
-}
 .home-link-2 a h5 {
+	color: rgb(0, 0, 0);
 	font-weight: 600;
+	padding: 20px;
+}
+.home-link-2 a h5:hover{
+	color: white;
 }
 .box-item{
 	max-width: 1200px;
@@ -844,8 +859,12 @@ footer {
 .small{
 	font-size: small;
 }
-  
-.noTiene{display:none !important}
+.ver-mas{
+	background: none !important;
+	border: none !important;
+	box-shadow: 0px 0px 0px 0px white !important;
+	padding: 0 !important;
+}
 
 .box-hashtags{
 	max-width: 500px;
@@ -942,7 +961,6 @@ footer {
 }
 .aviso-link{
 	color: rgb(10, 52, 167);
-	text-decoration: underline;
 }
 .aviso-link i {
 	font-size: 20px;
@@ -950,6 +968,7 @@ footer {
 .aviso-link:hover{
 	color: blue;
 	cursor: pointer;
+	text-decoration: underline;
 }
 .box-form{
 	display: flex;
@@ -1090,9 +1109,6 @@ footer {
 }
 .select2-selection, .select2-dropdown, .select2{
 	min-width: fit-content;
-}
-.noTiene{
-	display: none;
 }
 @media (max-width:900px) {
 	.box-info {

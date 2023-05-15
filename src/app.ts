@@ -40,7 +40,7 @@ export class App {
         
     }
 
-    public start(){
+    public start(port?: number){
 
         this.startMiddleware(this.middleware);
 

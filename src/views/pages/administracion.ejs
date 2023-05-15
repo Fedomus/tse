@@ -44,65 +44,8 @@
                 </section>
             </main>
         </div>
-        <script src="/js/script.js"></script>
-        <script>
-            document.addEventListener("DOMContentLoaded", async () => {
-
-                $('#bandeja-tags').select2({
-                theme:"bootstrap"
-                })
-
-                loadNavbar()
-                
-                easyTabs()
-                
-                closeOffcanvas();
-
-                $.fn.dataTable.moment('DD/MM/YYYY');
-                
-                let tablas = ['#tablausuarios', '#tablaareas', '#tablatarjetas', '#tablarechazadas'];
-                for (const tabla of tablas) {
-                    $(tabla).DataTable({
-                        "order": [[0, "desc"]],
-                        "pageLength": 25,
-                        "language": {
-                            "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-                        },
-                        // "scrollX": true,
-                        // "responsive": true,
-                    });
-                }
-
-                $('#tablaaprobadas').DataTable({
-                    "order": [[0, "desc"]],
-                    "pageLength": 25,
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
-                    },
-                    dom: 'Bfrtip',
-                    buttons: [
-                        {
-                            extend: 'copy',
-                            text: 'Copiar'
-                        },
-                        {
-                            extend: 'excel',
-                            text: 'Exportar Excel',
-                            filename: 'FichasAprobadas_' + new Date().toLocaleDateString()
-                        }
-                    ]
-                });
-
-                let tags= document.getElementsByClassName('hito-tag');
-                for(let i = 0; i < tags.length; i++) {
-                    let elem = tags[i]
-                    elem.addEventListener('click', () => {
-                        elem.remove();
-                    });
-                }
-            
-            });
-        </script>
         <%- include('../partials/footer'); %>
+        <script src="/js/globales.js"></script>
+        <script src="/js/administracion.js"></script>
     </body>
 </html>

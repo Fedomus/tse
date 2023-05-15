@@ -47,6 +47,7 @@ export default class Routes {
 
         routerTse.get('/', (req, res) => {this.tseController.getTse(req, res)})
         routerTse.get('/descargarpegi', (req, res) => {this.pegiController.descargarPegi(req, res)})
+        routerTse.get('/descargarnorma', (req, res) => {this.pegiController.descargarNorma(req, res)})
         routerTse.post('/nuevo', (req, res) => {this.tarjetasController.postNuevaTarjeta(req, res)})
         routerTse.get('/newpass', (req, res) => {this.tseController.getNewPass(req, res)})
 

@@ -6,13 +6,15 @@
 </div>
 <div class="box-form">
     <br>
-    <div class="box-aviso">
+    <div class="box-aviso" id="box-aviso">
         <span onclick="switchAviso();" id="aviso-link" class="aviso-link">
             <i class="fa-solid fa-triangle-exclamation">&nbsp;</i>
-            <span>Ocultar</span> 
+            <span class="aviso-link-texto">Ocultar</span> 
         </span>
-        <br><br>
-        <p id="aviso-parrafo">Recuerda que la información volcada en la ficha debe ser lo más resumida, concisa y clara posible, teniendo en cuenta su vinculación con un plan de acción particular. Para más información sobre las Fichas de Gestión dirigirse a la sección "info".</p>
+        <p id="aviso-parrafo">
+            <br>
+            Recuerda que la información volcada en la ficha debe ser lo más resumida, concisa y clara posible, teniendo en cuenta su vinculación con un plan de acción particular. Para más información sobre las Fichas de Gestión dirigirse a la sección "info".
+        </p>
     </div>
     <br>
     <br>
@@ -27,7 +29,7 @@
             <textarea name="cuerpo" maxlength="500" class="form-control" id="nuevatarjeta-cuerpo" cols="30" rows="10" required></textarea>
         </div>
         <br>
-        <label for="tags" class="form-label">Palabras clave *</label>
+        <label for="tags" class="form-label">Palabras clave * <span class="small">(entre 4 y 10)</span></label>
         <select name ="tags" class="form-select" id="hito-hashtags" onchange="agregarTag(event, 'nuevohito-tags', 'hito-tag')" required>
             <option value selected></option>
             <% for(let t of tags) { %>
@@ -39,12 +41,12 @@
         <br>
         <div class="mb-3">
             <label for="expediente" class="form-label">Expediente</label>
-            <input type="text" class="form-control" name="expediente">
+            <input type="text" class="form-control" id="nuevatarjeta-expediente" name="expediente">
         </div>
         <br>
         <div class="mb-3">
             <label for="actoadministrativo" class="form-label">Acto administrativo (dispo o reso)</label>
-            <input type="text" class="form-control" name="actoadministrativo">
+            <input type="text" class="form-control" id="nuevatarjeta-actoadministrativo" name="actoadministrativo">
         </div>
         <br>
         <div class="mb-3">
@@ -85,11 +87,32 @@
                 </div>
                 <div>
                     <p class="small">
-                        Se enviará la tarjeta al área de Gerencia General para su evaluación. 
+                        Se enviará la siguiente ficha al área de Gerencia General para su evaluación. 
                     </p>
-                    <p class="small">
-                        Ante cualquier consulta, puede dirigirse a <i>gerencia.general@incaa.gov.ar</i>.
-                    </p>
+                    <div class="card" id="">
+                        <div class="card-body">
+                            <p class="text-muted"><%= new Date().toLocaleDateString() %></p>
+                            <h5 class="card-title contenido" id="titulo"></h5>
+                            <p class="card-text contenido" id="cuerpo"></p>
+                            <br>
+                            <p class="text-muted small" id="expediente"><b>Expediente: </b></p>
+                            <p class="text-muted small" id="norma"><b>Acto Administrativo: </b></p>
+                            <p class="text-muted small" id="tags">
+                                <b>Palabras clave: </b>
+                            </p>
+                            <hr>
+                            <details>
+                                <summary class="small desplegable-plan">Plan estratégico</summary>
+                                <div>
+                                    <br>
+                                    <p class="text-muted small" id="eje"><b>Eje: </b></p>
+                                    <p class="text-muted small" id="objetivo"><b>Objetivo estratégico: </b></p>
+                                    <p class="text-muted small" id="linea"><b>Línea estratégica: </b></p>
+                                    <p class="text-muted small" id="plan"><b>Plan de acción: </b></p>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
                     <p class="small">
                         ¿Desea continuar?
                     </p>
@@ -102,8 +125,7 @@
     </form>
 </div>
 <script>
-    function comprobarCamposYAbrirModal() {
-
+    function obtenerBody(){
         let form = new FormData(document.getElementById('form-nuevatarjeta'));
 
         let body = {
@@ -125,13 +147,47 @@
             tags.push(child.innerHTML)
         }
 
-        body.tags = tags.join(',')
+        body.tags = tags;
+
+        return body
+    }
+    function comprobarCamposYAbrirModal() {
+
+        const body = obtenerBody();
 
         if(body.eje && body.objetivo && body.linea && body.plandeaccion && body.tags) {
-            abrirModal('modal-nuevatarjeta')
+            if(body.tags.length<4 || body.tags.length>10){
+                mostrarError('¡deben haber entre 4 y 10 palabras clave!');
+            } else {
+                body.tags = body.tags.join(',')
+                mostrarDatos(body)
+                abrirModal('modal-nuevatarjeta')
+            }
         } else {
             mostrarError('¡Campos incompletos!')
         }
         
+    }
+    function mostrarDatos(body) {
+
+        document.getElementById('titulo').innerHTML = ''
+        document.getElementById('cuerpo').innerHTML = ''
+        document.getElementById('expediente').innerHTML = `<b>Expediente: </b>`
+        document.getElementById('norma').innerHTML = '<b>Acto Administrativo: </b>'
+        document.getElementById('tags').innerHTML = '<b>Palabras clave: </b>'
+        document.getElementById('eje').innerHTML = '<b>Eje: </b>'
+        document.getElementById('objetivo').innerHTML = '<b>Objetivo estratégico: </b>'
+        document.getElementById('linea').innerHTML = '<b>Línea estratégica: </b>'
+        document.getElementById('plan').innerHTML ='<b>Plan de acción: </b>'
+
+        document.getElementById('titulo').append(body.titulo)
+        document.getElementById('cuerpo').append(body.cuerpo)
+        document.getElementById('expediente').append(' ' + body.expediente)
+        document.getElementById('norma').append(' ' + body.actoadministrativo)
+        document.getElementById('tags').append(' ' + body.tags)
+        document.getElementById('eje').append(' ' + document.getElementById('form-nuevohito-ejes').options[document.getElementById('form-nuevohito-ejes').selectedIndex].innerText)
+        document.getElementById('objetivo').append(' ' + document.getElementById('form-nuevohito-objetivos').options[document.getElementById('form-nuevohito-objetivos').selectedIndex].innerText)
+        document.getElementById('linea').append(' ' + document.getElementById('form-nuevohito-lineas').options[document.getElementById('form-nuevohito-lineas').selectedIndex].innerText)
+        document.getElementById('plan').append(' ' + document.getElementById('form-nuevohito-planesdeaccion').options[document.getElementById('form-nuevohito-planesdeaccion').selectedIndex].innerText)
     }
 </script>

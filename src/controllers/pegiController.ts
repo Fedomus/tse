@@ -123,12 +123,22 @@ export default class apiController {
 
     public async descargarPegi(req: Request, res: Response): Promise<void> {
         try {
-            const file = `${__dirname}/public/files/Plan Estratégico Organizacional EDITADO VERSIÓN 1.docx.pdf`;
+            const file = `${__dirname}/public/files/IF-2022-62930192-APN-GG%INCAA.pdf`;
             res.download(file);
         }
         catch(err) {
             logger.error('Error en descargarPegi: ' + err)
         }
 
+    }
+
+    public async descargarNorma(req: Request, res: Response): Promise<void>{
+        try{
+            const file = `${__dirname}/public/files/RS-2022-71880387-APN-INCAA%MC.pdf`;
+            res.download(file)
+        }
+        catch(err){
+            logger.error('Error en descargarNorma: ' + err)
+        }
     }
 }
