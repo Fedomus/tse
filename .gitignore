@@ -1,6 +1,5 @@
 node_modules
 db
-.env
 server.key
 server.cert
 fakeCards.json

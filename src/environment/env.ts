@@ -12,7 +12,5 @@ export const ENV:IEnv = {
     DB_PASS: process.env.DB_PASS,
     DB_NAME: process.env.DB_NAME,
     SECRET:process.env.SESSION_SECRET,
-    KEY: process.env.SESSION_KEY,
-    SSL_KEY: process.env.SSL_KEY,
-    SSL_CERT: process.env.SSL_CERT
+    KEY: process.env.SESSION_KEY
 }
