@@ -75,15 +75,14 @@ export default class Routes {
 
         const routerApi = Router()
 
-        routerApi.use(midGeneral)
+        routerApi.get('/pegi', midGeneral, (req, res) => {this.pegiController.getPegi(req, res)})
+        routerApi.get('/pegi2', midGeneral, (req, res) => {this.pegiController.getPegiFiltrado(req, res)})
+        routerApi.get('/tarjetas', midGeneral, (req, res) => {this.tarjetasController.getTarjetasAprobadas(req, res)})
+        routerApi.get('/sessiondata', midGeneral, (req, res) => {this.authController.getSessionData(req, res)})
+        routerApi.get('/api', (req, res) => this.areasController.getAreas(req, res))
 
-        routerApi.get('/pegi', (req, res) => {this.pegiController.getPegi(req, res)})
-        routerApi.get('/pegi2', (req, res) => {this.pegiController.getPegiFiltrado(req, res)})
-        routerApi.get('/tarjetas', (req, res) => {this.tarjetasController.getTarjetasAprobadas(req, res)})
-        routerApi.get('/sessiondata', (req, res) => {this.authController.getSessionData(req, res)})
 
         return routerApi;
     }
-
 }
 
