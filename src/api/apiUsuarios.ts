@@ -107,7 +107,7 @@ export default class apiUsuarios {
     }
 
     public async actualizarPass(usuario: string, newPass: string) {
-        return await this.usuariosDAO.actualizarPass(usuario, newPass)
+        return await this.usuariosDAO.actualizarPass(usuario, createHash(newPass))
         .then((result: string) => {
             return result
         })
@@ -115,6 +115,5 @@ export default class apiUsuarios {
             logger.error('Error en apiUsuarios-actualizarPass: ' + err)
         })
     }
-
     
 }

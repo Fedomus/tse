@@ -79,7 +79,7 @@ export default class Routes {
         routerApi.get('/pegi2', midGeneral, (req, res) => {this.pegiController.getPegiFiltrado(req, res)})
         routerApi.get('/tarjetas', midGeneral, (req, res) => {this.tarjetasController.getTarjetasAprobadas(req, res)})
         routerApi.get('/sessiondata', midGeneral, (req, res) => {this.authController.getSessionData(req, res)})
-        routerApi.get('/api', (req, res) => this.areasController.getAreas(req, res))
+        routerApi.get('/areas', (req, res) => this.areasController.getAreas(req, res))
 
 
         return routerApi;
