@@ -16,11 +16,11 @@ async function actualizarContrasenias() {
             
         }
 
-        logger.info('Contraseñas actualizadas')
+        console.log('Contraseñas actualizadas')
     }
     catch(err){
 
-        logger.error('Hubo un error y no se pudieron actualizar las contraseñas')
+        console.log('Hubo un error y no se pudieron actualizar las contraseñas');
     }
 
 }
