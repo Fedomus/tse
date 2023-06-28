@@ -54,7 +54,8 @@ export const middlewareGlobal: any[] = [
     express.urlencoded({extended: true}),
     cors(),
     helmet({
-        contentSecurityPolicy: false
+        contentSecurityPolicy: false,
+        originAgentCluster: false
         // {
         //     directives: CSPDirectives   
         // }
