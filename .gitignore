@@ -3,3 +3,4 @@ db
 server.key
 server.cert
 fakeCards.json
+.env
