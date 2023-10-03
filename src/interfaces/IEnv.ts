@@ -1,6 +1,6 @@
 
 export interface IEnv {
-      stage?: string;
+      NODE_ENV?: string;
       PORT?: string;
       DB_PORT?: any;
       DB_HOST?: string;

@@ -1,47 +1,130 @@
 import { App } from "./app";
-import { middlewareGlobal } from "./middlewares/middlewareGlobal";
-import Routes from "./routes/routes";
 import parseArgs from 'minimist';
 import os from 'os';
-// import * as fs from 'fs';
 import { ENV } from "./environment/env";
+import http from 'http';
+import { Application } from "express";
+import logger from "./logger";
+import cluster from "cluster";
+import debug from "debug";
 
-//Se define el proceso global
+
+//Utilizo Minimist para manejar el proceso global
 const options: object = {
-      alias: {
-          "p": "port",
-          "m": "modo"
-      },
-      default: {
-          "port": ENV.PORT,
-          "modo": "cluster"
-      }
+    alias: {
+        "p": "puerto"
+    },
+    default: {
+        "puerto": ENV.PORT
+    }
 };
+
 const args = parseArgs(process.argv.slice(2), options)
-const port: number = args.p
-const modo: string = args.m
+
+
+// Defino el puerto de la aplicación
+function normalizePort(val: string): number | string {
+  let port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return "";
+}
+
+const puerto: number | string = normalizePort(args.p);
+
+
+//Se inicia la aplicación
+const Aplicacion: Application = new App(puerto).iniciarAplicacion();
+
+
+//Obtengo el numero de CPUs de la máquina donde está corriendo node
 const numCPUs = os.cpus().length
 
-//Se inicia la app
-const routes: Routes = new Routes();
-const app: App = new App(
 
-    port,
+// Se crea el servidor
+const server = http.createServer(Aplicacion);
 
-    modo,
 
-    numCPUs,
+function onError(error: any) {
+    if (error.syscall !== 'listen') {
+      throw error;
+    }
+  
+    var bind = typeof puerto === 'string'
+      ? 'Pipe ' + puerto
+      : 'Port ' + puerto;
+  
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+      case 'EACCES':
+        logger.error(bind + ' requires elevated privileges');
+        process.exit(1);
+        break;
+      case 'EADDRINUSE':
+        logger.error(bind + ' is already in use');
+        process.exit(1);
+        break;
+      default:
+        throw error;
+    }
+}
 
-    middlewareGlobal,
 
-    [
-        {path: '/', name: routes.home()},
-        {path: '/auth', name: routes.auth()},
-        {path:'/tse', name: routes.tse()},
-        {path: '/api', name: routes.api()},
-        {path: '/admin', name: routes.admin()}
-    ]
+function onListening() {
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+          ? 'pipe ' + addr
+          : 'port ' + addr?.port;
+    debug('Listening on ' + bind);
+}
 
-);
 
-app.start();
+//Se inicia el servidor en modo fork o cluster, usando el módulo nativo cluster
+
+if (cluster.isPrimary){
+
+    logger.info(`Número de procesadores: ${numCPUs}`);
+    logger.info(`PID Máster: ${process.pid}`);
+
+    for (let i = 0; i < numCPUs; i++) {
+          cluster.fork()
+    }
+
+    cluster.on('exit', worker => {
+          logger.info(`Worker ${worker.process.pid} died ${new Date().toLocaleString()}`);
+          cluster.fork()
+    })
+
+} else {
+
+    server.listen(puerto, () => {
+        logger.info(`PID Worker ${process.pid}. Servidor escuchando en puerto ${puerto}`);
+    });
+    
+    server.on('error', onError);
+    server.on('listening', onListening);
+    
+}
+
+
+
+
+
+
+
+
+          
+
+
+
+
+

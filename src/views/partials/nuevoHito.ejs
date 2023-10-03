@@ -30,7 +30,7 @@
         </div>
         <br>
         <label for="tags" class="form-label">Palabras clave * <span class="small">(entre 4 y 10)</span></label>
-        <select name ="tags" class="form-select" id="hito-hashtags" onchange="agregarTag(event, 'nuevohito-tags', 'hito-tag')" required>
+        <select name ="tags" class="form-control" id="hito-hashtags" onchange="agregarTag(event, 'nuevohito-tags', 'hito-tag')" required>
             <option value selected></option>
             <% for(let t of tags) { %>
                 <option value="<%= t %>"><%= t %></option>

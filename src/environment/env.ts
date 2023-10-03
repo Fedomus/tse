@@ -4,8 +4,8 @@ import dotenv from "dotenv"
 dotenv.config()
 
 export const ENV:IEnv = {
-    stage: process.env.NODE_ENV,
-    PORT: process.env.PORT,
+    NODE_ENV: process.env.NODE_ENV,
+    PORT: process.env.PORT || "8080",
     DB_PORT: process.env.DB_PORT,
     DB_HOST: process.env.DB_HOST,
     DB_USER: process.env.DB_USER,

@@ -1,21 +1,36 @@
-import * as log4js from "log4js";
+import log4js from "log4js";
+import {ENV} from "./environment/env";
 
 log4js.configure({
-    appenders: {
-          loggerConsole: {type: 'console'},
-          loggerWarn: {type: 'file', filename: './src/log/warn.log'},
-          loggerError: {type: 'file', filename: './src/log/error.log'}
-    },
-    categories: {
-          default: {appenders: ['loggerConsole'], level: 'debug'},
-          consola: {appenders: ['loggerConsole'], level: 'error'},
-          warn: {appenders: ['loggerWarn'], level: 'warn'},
-          error: {appenders: ['loggerError'], level: 'error'},
-    }
+      appenders: {
+            logConsola: {type: 'console'},
+            logArchivo: {type: 'file', filename: './log/logs.log'},
+      },
+      categories: {
+            default: {appenders: ["logConsola"], level: 'info'},
+            consola: {appenders: ['logConsola'], level: 'info'},
+            archivo: {appenders: ['logArchivo'], level: 'warn'},
+      }
 })
 
-const logger = log4js.getLogger()
+let logConsola = log4js.getLogger("consola");
+logConsola.level = "info";
 
-logger.level = "debug"
+let logArchivo = log4js.getLogger("archivo");
+logArchivo.level = "warn";
+
+let logger: any;
+
+switch(ENV.NODE_ENV){
+
+      case "desarrollo":
+            logger = logConsola
+            break;
+      case "produccion":
+            logger = logArchivo
+            break;
+      default: 
+            logger = logConsola
+}
 
 export default logger;

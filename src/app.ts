@@ -1,8 +1,7 @@
-import express from "express";
-import {IRouter} from './interfaces/IRouter';
+import express, { Application } from "express";
+import { middlewareGlobal } from "./middlewares/middlewareGlobal";
 import moment from 'moment';
-import logger from "./logger";
-import cluster from 'cluster';
+import Routes from "./routes/routes";
 
 declare module 'express-session' {
     interface SessionData {
@@ -13,107 +12,62 @@ declare module 'express-session' {
     }
 }
 
-export class App {
-    
-    private app: any;
-    private middleware: any[];
-    private routers: IRouter[];
-    private modoCluster: boolean;
+export class App{
 
+    private puerto: number | string;
 
     constructor(
-        
-        private port: number,
-        private modo: string,
-        private numCPUs: number,
-        middleware: any[],
-        routers: IRouter[],
-        private staticPath: string = "/public",
-    
+        puerto: number | string
     ) {
-        this.app = express()
-        this.port = port;
-        this.modoCluster = modo == 'cluster';
-        this.numCPUs= numCPUs;
-        this.middleware = middleware;
-        this.routers = routers;
-        
+        this.puerto = puerto;
     }
 
-    public start(port?: number){
+    private app: Application = express();
 
-        this.startMiddleware(this.middleware);
+    private routes: Routes = new Routes();
 
-        this.assets(this.staticPath);
+    private router=[
+        {path: '/', name: this.routes.home()},
+        {path: '/auth', name: this.routes.auth()},
+        {path:'/tse', name: this.routes.tse()},
+        {path: '/api', name: this.routes.api()},
+        {path: '/admin', name: this.routes.admin()}
+    ]
 
-        this.setTemplateEngine();
-
-        this.startRouters(this.routers);
-
-        this.listen();
-
+    private startMiddleware() {
+        middlewareGlobal.forEach((m) => {
+            this.app.use(m);
+        });
     }
 
-    private startMiddleware(mware: any[]) {
-        try {
-            mware.forEach((m) => {
-                this.app.use(m);
-            });
-        }
-        catch(err) {
-            logger.error('Error en startMiddleware: ' + err)
-        }
-
-    }
-
-    private startRouters(routers: IRouter[]) {
-        try{
-            routers.forEach((r) => {
-                this.app.use(r.path, r.name);
-            });
-        }
-        catch(err) {
-            logger.error('Error en startRouters: '  +err)
-        }
-
-    }
-
-    private assets(path: string) {
-        this.app.use(express.static(__dirname + path));
+    private startRouter() {
+        this.router.forEach((r) => {
+            this.app.use(r.path, r.name);
+        });
     }
 
     private setTemplateEngine() {
-        try{
-            this.app.set('view engine', 'ejs');
-            this.app.set('views', './src/views');
-            this.app.locals.moment = moment;
-        } 
-        catch(err){
-            logger.error('Error en setTemplateEngine: ' + err)
-        }
-
+        this.app.set('view engine', 'ejs');
+        this.app.set('views', './src/views');
+        //Defino la propiedad moment que luego llamo en el html
+        this.app.locals.moment = moment;
     }
 
-    private listen() {
+    private setPuerto(){
+        this.app.set('port', this.puerto);
+    } 
 
-        if (this.modoCluster && cluster.isPrimary){
-            logger.info(`Número de procesadores: ${this.numCPUs}`);
-            logger.info(`PID Máster: ${process.pid}`);
-            for (let i = 0; i < this.numCPUs; i++) {
-                cluster.fork()
-            }
-            cluster.on('exit', worker => {
-                logger.info(`Worker ${worker.process.pid} died ${new Date().toLocaleString()}`);
-                cluster.fork()
-            })
-        } else {
-            try {
-                this.app.listen(this.port);
-                logger.info(`PID Worker ${process.pid}. Servidor escuchando en puerto ${this.port}`);
-            } catch(err) {
-                logger.error(`Error en el servidor: ${err}`)
-            }
-        }
+    public iniciarAplicacion(): Application {
+
+        this.setPuerto();
+       
+        this.startMiddleware();
+
+        this.setTemplateEngine();
+
+        this.startRouter();
+
+        return this.app;
     }
-    
+
 }

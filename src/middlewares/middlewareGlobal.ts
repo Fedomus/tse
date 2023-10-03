@@ -8,6 +8,7 @@ import express from 'express';
 import expressMySqlSession from "express-mysql-session";
 import helmet from "helmet";
 import logger from '../logger';
+import cookieParser from 'cookie-parser';
 
 const MySQLStore = expressMySqlSession(expressSession)
 
@@ -20,47 +21,42 @@ const MySQLOptions = {
 };
 const sessionStore = new MySQLStore(MySQLOptions);
 
-let sessionOptions;
+let sessionOptions: any;
 
-if(ENV.KEY && ENV.SECRET) {
-    sessionOptions = {
-        key: ENV.KEY,
-        secret: ENV.SECRET,
-        store: sessionStore,
-        resave: false,
-        saveUninitialized: false
-    }
-} else {
-    logger.error('Falta configurar SESSION_KEY y SESSION_SECRET')
+sessionOptions = {
+    key: ENV.KEY,
+    secret: ENV.SECRET,
+    store: sessionStore,
+    resave: false,
+    saveUninitialized: false
 }
-
-// const CSPDirectives = helmet.contentSecurityPolicy.getDefaultDirectives();
-// CSPDirectives["script-src"] = ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net", "cdn.datatables.net", "code.jquery.com", "cdnjs.cloudflare.com", "pagination.js.org", "kit.fontawesome.com"];
-// CSPDirectives["style-src"] = ["'self'", "'unsafe-inline'", "cdn.jsdelivr.net", "cdn.datatables.net", "cdnjs.cloudflare.com", "fonts.cdnfonts.com"];
-// CSPDirectives["connect-src"] = ["'self'", "ka-f.fontawesome.com", "fonts.cdnfonts.com", "cdn.datatables.net"];
-// CSPDirectives["script-src-attr"] = ["'unsafe-inline'"]
-// delete CSPDirectives['upgrade-insecure-requests'];
 
 function rutaValida(err, req, res, next) {
     if (err) {
+        logger.error(err)
     return res.status(err.statusCode || 500).json(err.message);  
     }
     next()
 }
 
 export const middlewareGlobal: any[] = [
+
+    express.static(__dirname + "/public"),
+
     bodyParser.json(),
     bodyParser.urlencoded({ extended: true }),
-    express.urlencoded({extended: true}),
+    
+    cookieParser(),
+
     cors(),
+
     helmet({
         contentSecurityPolicy: false,
-        originAgentCluster: false
-        // {
-        //     directives: CSPDirectives   
-        // }
     }),
+
     compression(),
+
     session(sessionOptions),
-    (err, req, res, next) => {rutaValida(err, req, res, next)}
+    
+    (err, req, res, next) => rutaValida(err, req, res, next)
 ]
