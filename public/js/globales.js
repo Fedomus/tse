@@ -78,22 +78,21 @@ function loadNavbar(){
         })
     }
 
-    // Listen to the doc click
-    // window.addEventListener('click', function (e) {
+    window.addEventListener('click', function (e) {
 
-    //     // Close the menu if click happen outside menu
-    //     if (e.target.closest('.dropdown-contenedor') === null) {
-    //         // Close the opend dropdown
-    //         closeDropdown();
-    //     }
+        // Close the menu if click happen outside menu
+        if (e.target.closest('.dropdown-contenedor') === null) {
+            // Close the opend dropdown
+            closeDropdown();
+        }
 
-    //     if (e.target.closest('.off-canvas') === null && e.target.closest('.open-menu') === null) {
-    //         closeOffcanvas();
-    //     }
+        if (e.target.closest('.off-canvas') === null && e.target.closest('.open-menu') === null) {
+            closeOffcanvas();
+        }
 
    
 
-    // });
+    });
 
     // Close the openend Dropdowns
     function closeDropdown() { 

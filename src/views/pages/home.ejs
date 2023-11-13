@@ -4,26 +4,14 @@
     </head>
     <body>
         <div class="home-header">
-            <img src="./assets/logo_tablero.png" alt="">
-            <div class="home-link-2">
-                <a href="/tse">
-                    <h5>Ingresar</h5>
-                </a>
-            </div>
+            <h1 class="texto">PROYECTOS INCAA</h1>
         </div>
         <div class="home-acerca">
-            <%- include('../partials/home') %>
-            <br>
-            <div class="home-link">
-                <a href="/tse">
-                    <h5>Ingresar</h5>
-                </a>
-            </div>
+            <a class="home-link texto" href="/memoria">MEMORIA DE GESTIÓN</a>
+            <br><br><br><br>
+            <a class="home-link texto" href="/tse">TABLERO DE SEGUIMIENTO ESTRATÉGICO</a>
         </div>
-        <div class="footer-container">
-            <div class="footer-img">
-                <img src="/assets/logo_incaa.png" alt="">
-            </div>
-        </div>
+        <br><br><br><br><br>
+        <%- include("../partials/footer.ejs") %>
     </body>
 </html>

@@ -7,11 +7,8 @@
 	--eje3: rgb(120,201,125);
 	--eje2: rgb(210,213,85);
 	--eje1: rgb(206,124,124);
+	--blanco-texto: rgb(224, 224, 224);
 }
-
-/* html {
-  overflow-x: hidden!important;
-} */
 body {
 	font-family: 'Helvetica Neue LT Pro';
   	background-color: var(--color-fondo);
@@ -58,7 +55,7 @@ footer {
 	width: 100%;
 	height: 120px;
 	font-size: small; 
-	color:white;
+	color: var(--blanco-texto);
 }
 .footer-container{
 	display: block;
@@ -92,9 +89,12 @@ footer {
 	}
 }
 /****************************************************** HOME ***************************************************/
-
+.texto{
+	text-transform: uppercase;
+	font-weight: 700;
+}
 .home-header {
-	background-color: white;
+	color: var(--blanco-texto);
 	text-align: center;
 	padding: 25px;
 	padding-bottom: 50px;
@@ -106,23 +106,27 @@ footer {
 }
 .home-acerca{
 	background-color: black;
-	color: white;
+	color: var(--blanco-texto);
 	padding: 50px;
+	text-align: center;
 }
 .home-link{
 	text-align: center;
-	border: 5px solid white;
+	border: 5px solid var(--blanco-texto);
 	max-width: 200px;
 	margin: auto;
 	margin-top: 50px;
 	font-size: 15px;
+	color: var(--blanco-texto);
+	padding: 20px;
+	text-decoration: none;
 }
 .home-link:hover{
-	background-color: white;
+	background-color: var(--blanco-texto);
 	border-color: #000;
 }
 .home-link a h5 {
-	color: white;
+	color: var(--blanco-texto);
 	font-weight: 600;
 	padding: 20px;
 }
@@ -138,8 +142,8 @@ footer {
 }
 .home-link-2:hover{
 	background-color: black;
-	border-color: white;
-	color: white;
+	border-color: var(--blanco-texto);
+	color: var(--blanco-texto);
 	cursor: pointer;
 }
 .home-link-2 a h5 {
@@ -148,7 +152,7 @@ footer {
 	padding: 20px;
 }
 .home-link-2 a h5:hover{
-	color: white;
+	color: var(--blanco-texto);
 }
 .box-item{
 	max-width: 1200px;
@@ -169,6 +173,7 @@ footer {
 	padding: 20px;
 	text-align: center;
 	max-width: 500px;
+	color: var(--blanco-texto);
 }
 .items-container{
 	display: flex;
@@ -207,7 +212,7 @@ footer {
 		font-size: small;
 	}
 	.home-link {
-		padding: 0;
+		font-size: 12px;
 	}
 	.home-link-2{
 		margin-top: 30px;
@@ -419,7 +424,6 @@ footer {
 	transition: all ease-in-out 0.3s;
 	height: 50px;
 	color: white;
-	font-weight: 600;
 }
 .link-nav-container{
 	display: flex;
@@ -995,6 +999,12 @@ footer {
 	margin: 0 5px 0 0;
 	letter-spacing: 1px;
 }
+.boton:disabled{
+	cursor: not-allowed;
+	pointer-events: none;
+	opacity: 1;
+	color: #aeaeae;
+}
 .boton-chico{
 	color: #FFF ;
 	background-color: #350ec1;
@@ -1016,12 +1026,12 @@ footer {
 	background-color:var(--azul-principal);
 }
 .boton-secundario {
-	background-color: #929292 ;
+	background-color: #6c6c6c ;
     text-decoration: none;
 }
 .boton-secundario:hover{
 	color: white;
-	background-color: #6e6e6e ;
+	background-color: #4d4d4d ;
 	cursor: pointer;
 }
 .boton-confirmar{

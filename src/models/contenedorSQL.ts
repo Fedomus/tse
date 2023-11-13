@@ -42,29 +42,4 @@ export default class contenedorSQL {
         });
     }
 
-    // protected async getById(id: any) {
-    //         return await this.knex(this.tabla)
-    //         .where({ id: id })
-    //         .then( (elem: any) => {
-    //             return elem;
-    //         })
-    //         .catch( (err: string) => {console.log('Error al intentar el getById. ' + err);})
-    // }
-    
-    // protected async deleteById(id: any) {
-    //         await this.knex(this.tabla)
-    //         .where({id: id})
-    //         .del()
-    //         .then(() => console.log('Elemento eliminado'))
-    //         .catch((err: string) => console.log('Error al intentar el deleteById. ' + err));
-    // }
-
-    // protected async deleteAll() {
-    //         await this.knex(this.tabla).del()
-    //         .then(() => console.log('Se eliminaron todos los registros'))
-    //         .catch((error: string) => { 
-    //             console.log('Error en deleteAll. ' + error)
-    //         })
-    // }
-
 }

@@ -31,7 +31,8 @@ export class App{
         {path: '/auth', name: this.routes.auth()},
         {path:'/tse', name: this.routes.tse()},
         {path: '/api', name: this.routes.api()},
-        {path: '/admin', name: this.routes.admin()}
+        {path: '/admin', name: this.routes.admin()},
+        {path: '/memoria', name: this.routes.memoria()}
     ]
 
     private startMiddleware() {

@@ -7,6 +7,7 @@ import tarjetasController from "../controllers/tarjetasController";
 import {midGeneral, midGG} from "../middlewares/middlewareAutorizacion";
 import adminController from "../controllers/adminController";
 import areasController from "../controllers/areasController";
+import memoriaController from "../controllers/memoriaController";
 
 export default class Routes {
 
@@ -17,6 +18,7 @@ export default class Routes {
     private adminController: adminController = new adminController()
     private homeController: homeController = new homeController()
     private areasController: areasController = new areasController()
+    private memoriaController: memoriaController = new memoriaController()
 
     public home(): Router {
 
@@ -25,6 +27,15 @@ export default class Routes {
         routerHome.get('/', (req: Request, res: Response) => {this.homeController.getHome(req, res)});
 
         return routerHome;
+    }
+
+    public memoria(): Router {
+
+        const routerMemoria = Router();
+
+        routerMemoria.get("/", (req, res) => {this.memoriaController.getFormulario(req, res)});
+
+        return routerMemoria
     }
 
     public auth(): Router {
@@ -75,12 +86,25 @@ export default class Routes {
 
         const routerApi = Router()
 
-        routerApi.get('/pegi', midGeneral, (req, res) => {this.pegiController.getPegi(req, res)})
+        routerApi.get('/pegi', (req, res) => {this.pegiController.getPegi(req, res)})
         routerApi.get('/pegi2', midGeneral, (req, res) => {this.pegiController.getPegiFiltrado(req, res)})
         routerApi.get('/tarjetas', midGeneral, (req, res) => {this.tarjetasController.getTarjetasAprobadas(req, res)})
         routerApi.get('/sessiondata', midGeneral, (req, res) => {this.authController.getSessionData(req, res)})
-        routerApi.get('/areas', (req, res) => this.areasController.getAreas(req, res))
+        routerApi.get("/gerencias", (req, res) => this.memoriaController.getGerencias(req, res))
+        routerApi.get("/subgerencias", (req, res) => this.memoriaController.getSubgerencias(req, res))
+        routerApi.get("/coordinaciones", (req, res) => this.memoriaController.getCoordinaciones(req, res))
+        routerApi.get("/departamentos", (req, res) => this.memoriaController.getDepartamentos(req, res))
+        routerApi.get("/tags", (req, res) => this.memoriaController.getTags(req, res))
 
+        routerApi.get("/memorias", (req, res) => this.memoriaController.getMemorias(req, res))
+        routerApi.post("/memorias", (req, res) => this.memoriaController.postMemorias(req, res))
+        routerApi.put("/memorias", (req, res) => this.memoriaController.putMemoria(req, res))
+
+        routerApi.get('/areas', (req, res) => this.areasController.getAreas(req, res))
+        routerApi.put('/areas', (req, res) => this.memoriaController.putArea(req, res))
+        
+        routerApi.get("/acciones", (req, res) => this.memoriaController.getAcciones(req, res))
+        routerApi.post("/acciones", (req, res) => this.memoriaController.postAcciones(req, res))
 
         return routerApi;
     }

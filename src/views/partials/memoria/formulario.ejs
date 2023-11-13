@@ -1,0 +1,356 @@
+<br>
+<div style="text-align: right; padding-right: 50px;">
+  <a href="/" style="color: rgb(224, 224, 224);">Home</a>
+</div>
+<h1 class="texto" style="color: rgb(224, 224, 224); text-align: center;">Memoria <%= new Date().getFullYear() %></h1>
+
+<div id="registrar-area" class="seccion">
+  
+  <div id="seccion-texto" class="seccion-texto">
+    <h5 class="texto texto-blanco">Paso 1 - Registrar área</h5>
+
+    <ul class="texto-blanco">
+      <br>
+      <li>Seleccione el área sobre la que completará la memoria. Elija una entre las opciones de los siguientes listados agrupados por nivel jerárquico.</li>
+      <br>
+      <li>Complete una breve descripción del área, la cual deberá tener una extensión de entre 50 y 100 palabras.</li>
+    </ul>
+  </div>
+  <br>
+  <div class="registrar-area">
+    <form class="formulario-area">     
+        <div class="select">
+          <label class="titulo">Gerencia / ENERC</label>
+          <div class="view">
+            <input id="input-gerencia" list="lista-gerencias" class="input-area" name="gerencia">
+              
+            </input>
+            <datalist id="lista-gerencias">
+
+            </datalist>
+          </div>
+        </div>
+
+        <div class="select">
+          <label class="titulo">Subgerencia / Unidad / Secretaría</label>
+          <div class="view">
+            <input id="input-subgerencia" list="lista-subgerencias" class="input-area" name="subgerencia">
+              
+            </input>
+            <datalist id="lista-subgerencias">
+
+            </datalist>
+          </div>
+        </div>
+    
+          <div class="select">
+            <label class="titulo">Coordinación / UTI</label>
+            <div class="view">
+              <input id="input-coordinacion" list="lista-coordinaciones" class="input-area" name="coordinacion">
+              
+              </input>
+              <datalist id="lista-coordinaciones">
+
+              </datalist>
+            </div>
+          </div>
+    
+          <div class="select">
+            <label class="titulo">Departamento</label>
+            <div class="view">
+              <input id="input-departamento" list="lista-departamentos" class="input-area" name="departamento">
+              
+              </input>
+              <datalist id="lista-departamentos">
+     
+              </datalist>
+
+            </div>
+          </div>
+
+        <br>
+        
+    </form>
+
+    <div class="area-detalle">
+      <div id="info-area" class="info-area">
+        <div id="info-area-vacio" class="info-area-vacio">
+          <p class="texto">
+            Seleccione un área válida
+          </p>
+        </div>
+    
+        <form id="info-area-completo">
+
+        </form>
+      </div>
+
+      <div class="right">
+        <button id="registrar-area-continuar" type="button" class="boton boton-confirmar" disabled>Continuar</button>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<div id="registrar-memoria" class="seccion">
+  <details class="texto-blanco" style="padding: 10px; background-color: #2e2e2e;">
+    <summary id="registrar-memoria-area" class="texto texto-blanco" style="background: none; border-top: none;">
+      
+    </summary>
+    <p id="registrar-memoria-area-descripcion" class="texto-blanco"></p>
+  </details>
+  <br>
+  <div id="seccion-texto" class="seccion-texto">
+    <h5 class="texto texto-blanco">Paso 2 - Cargar acciones y síntesis de gestión</h5>
+
+    <ul class="texto-blanco">
+      <br>
+      <li>Cargue las acciones realizadas y las proyectadas</li>
+      <br>
+      <li>Todos los campos son obligatorios</li>
+    </ul>
+    <br>
+    <button class="boton boton-secundario" id="registrar-memoria-volver">
+      Volver a registrar área
+    </button>
+    <br><br>
+  </div>
+  <br>
+  <br>
+  <div style="display: flex;">
+    <div class="t-container">
+        <ul class="t-tabs">
+            <li class="t-tab">Acciones Realizadas</li>
+            <li class="t-tab">Acciones Proyectadas</li>
+            <li class="t-tab">Síntesis de Gestión</li>
+        </ul>
+        <ul class="t-contents"> 
+            <li class="t-content">
+
+              <br>
+              
+              <section id="seccion-acciones-realizadas">
+                
+              </section>
+
+              <hr>
+              
+              <form id="formulario-accion-realizada" class="formulario-accion-realizada">
+                <br>
+                <p class="texto texto-blanco">Formulario de Carga de Acción Realizada (2023)</p>
+
+                <br>
+                <div class="text writing">
+                  <input type="text" id="accion-realizada-titulo" maxlength="255" name="titulo" required>
+                  <label for="titulo">Titulo</label>
+                  <span></span>
+                </div>
+                <br>
+
+                <br>
+                <div class="select">
+                  <label class="texto-blanco">Eje (Plan Estratégico)</label>
+                  <div class="view">
+                    <select id="accion-realizada-eje" name="eje" onclick="applyOpenStyle(this)" onblur="removeOpenStyle(this)">
+                
+                    </select>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                  </div>
+                </div>
+                <br>
+
+                <br>
+                <div class="textarea writing">
+                  <textarea id="accion-realizada-descripcion" name="descripcion" required></textarea>
+                  <label for="descripcion">Descripcion <span class="small"> (entre 200 y 500 palabras)</span></label>
+                  <span></span>
+                </div>
+                <p class="small texto-blanco">
+                  Cantidad de palabras: 
+                  <span id="descripcion-cantidad-palabras">
+
+                  </span>
+                </p>
+                <br>
+                
+                <br>
+                <div class="textarea writing">
+                  <textarea id="accion-realizada-resultados" name="resultados" required></textarea>
+                  <label for="resultados">Resultados<span class="small"> (entre 50 y 100 palabras)</span></label>
+                  <span></span>
+                </div>
+                <p class="small texto-blanco">
+                  Cantidad de palabras: 
+                  <span id="resultados-cantidad-palabras">
+
+                  </span>
+                </p>
+                <br>
+
+                <div class="textarea writing">
+                  <textarea id="accion-realizada-resumen" name="resumen" required></textarea>
+                  <label for="resumen">Resumen<span class="small"> (entre 200 y 500 caracteres)</span></label>
+                  <span></span>
+                </div>
+                <p class="small texto-blanco">
+                  Cantidad de caracteres: 
+                  <span id="resumen-cantidad-palabras">
+
+                  </span>
+                </p>
+                <br>
+
+                <div class="select">
+                  <label class="texto-blanco">Palabras clave <span class="small">(entre 4 y 10)</span></label>
+                  <div class="view">
+                    <input id="input-tags" list="lista-tags" class="input-area" name="tags">
+                      
+                    </input>
+                    <datalist id="lista-tags">
+        
+                    </datalist>
+                  </div>
+                </div>
+                <br>
+                <div id="tags-container" class="tags-container">
+                </div>
+                <br>
+
+                <br>
+                <div style="text-align: right;">
+                  <button type="submit" class="boton boton-confirmar" id="accion-realizada-agregar" disabled>Guardar acción</button>
+                </div>
+              </form>
+            </li>
+            <li class="t-content">
+
+
+              <br>
+              
+              <section id="seccion-acciones-proyectadas">
+                
+              </section>
+
+              <hr>
+              
+              <form id="formulario-accion-proyectada" class="formulario-accion-realizada">
+                <br>
+                <p class="texto texto-blanco">Formulario de Carga de Acción Proyectada (2024)</p>
+
+                <br>
+                <div class="text writing">
+                  <input type="text" id="accion-proyectada-titulo" maxlength="255" name="titulo" required>
+                  <label for="titulo">Titulo</label>
+                  <span></span>
+                </div>
+                <br>
+
+                <br>
+                <div class="select">
+                  <label class="texto-blanco">Eje (Plan Estratégico)</label>
+                  <div class="view">
+                    <select id="accion-proyectada-eje" name="eje" onclick="applyOpenStyle(this)" onblur="removeOpenStyle(this)">
+                
+                    </select>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/></svg>
+                  </div>
+                </div>
+                <br>
+
+                <div class="textarea writing">
+                  <textarea id="accion-proyectada-resumen" name="resumen" required></textarea>
+                  <label for="resumen">Resumen<span class="small"> (entre 200 y 500 caracteres)</span></label>
+                  <span></span>
+                </div>
+                <p class="small texto-blanco">
+                  Cantidad de caracteres: 
+                  <span id="aproyectada-resumen-cantidad-palabras">
+
+                  </span>
+                </p>
+                <br>
+
+                <div class="select">
+                  <label class="texto-blanco">Palabras clave <span class="small">(entre 4 y 10)</span></label>
+                  <div class="view">
+                    <input id="aproyectada-input-tags" list="aproyectada-lista-tags" class="input-area" name="tags">
+                      
+                    </input>
+                    <datalist id="aproyectada-lista-tags">
+        
+                    </datalist>
+                  </div>
+                </div>
+                <br>
+                <div id="aproyectada-tags-container" class="tags-container">
+                </div>
+                <br>
+
+                <br>
+                <div style="text-align: right;">
+                  <button type="submit" class="boton boton-confirmar" id="accion-proyectada-agregar" disabled>Guardar acción</button>
+                </div>
+
+              </form>
+
+            </li>
+
+            <li class="t-content">
+
+              <br>
+              
+              <section>
+
+                <p>
+                  Completar un resumen de entre 500 y 1000 caracteres sobre el balance de todo lo hecho durante el año
+                </p>
+                
+              </section>
+
+              <hr>
+              
+              <form id="formulario-sintesis" class="formulario-accion-realizada">
+
+                <div class="textarea writing">
+                  <textarea id="textarea-sintesis" name="sintesis" required></textarea>
+                  <label id="label-sintesis" for="sintesis">Síntesis de gestión<span class="small"> (entre 500 y 1000 caracteres)</span></label>
+                  <span></span>
+                </div>
+                <p class="small texto-blanco">
+                  Cantidad de caracteres: 
+                  <span id="sintesis-cantidad-palabras">
+
+                  </span>
+                </p>
+                <br>
+
+                <p>
+                  La documentación adicional puede agregarse en la 
+                  <a 
+                  href="https://drive.google.com/drive/folders/1X8bvgaNj8m7944i8RKTTCGB4phJlDmkA" 
+                  target="_blank"
+                  style="text-decoration: underline;">
+                    carpeta de Google Drive
+                  </a>
+                </p>
+
+                <br>
+                <div style="text-align: right;">
+                  <button type="submit" class="boton boton-confirmar" id="sintesis-guardar" disabled>Guardar síntesis</button>
+                </div>
+
+              </form>
+
+            </li>
+        </ul>
+    </div>
+  </div>
+</div>
+
+<div style="text-align: center;">
+  <button type="button" class="boton" id="boton-exportar">Exportar a Word</button>
+</div>
+
+<br><br><br>
+

@@ -107,7 +107,7 @@ if (cluster.isPrimary){
 } else {
 
     server.listen(puerto, () => {
-        logger.info(`PID Worker ${process.pid}. Servidor escuchando en puerto ${puerto}`);
+        logger.info(`PID Worker ${process.pid} escuchando en puerto ${puerto}`);
     });
     
     server.on('error', onError);

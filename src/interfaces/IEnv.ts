@@ -9,6 +9,4 @@ export interface IEnv {
       DB_NAME?: string;
       SECRET?: string;
       KEY?: string;
-      SSL_KEY?: string;
-      SSL_CERT?: string;
 }

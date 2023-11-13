@@ -5,17 +5,22 @@
             <b class="icono-desktop"><%= titulo %></b>
         </div>
     </div>
-    <div class="dropdown-contenedor">
-        <a class="dropdown-btn click-dropdown">
-            <i class="fa-solid fa-user fa-xl" style="padding: 10px;"></i>
-            <span class="small" style="font-weight: normal;"><%= usuario %></span>
-            <i class="fa-solid fa-caret-down" style="padding: 10px;"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-end">
-            <ul>
-                <li><a href="/tse/newpass">Modificar contraseña</a></li>
-                <li><a href="/auth/logout">Salir</a></li>
-            </ul>
+    <div
+        style="display: flex; color: rgb(224, 224, 224);"
+    >
+        <a class="link-nav" href="/">Home</a>
+        <div class="dropdown-contenedor">
+            <a class="dropdown-btn click-dropdown">
+                <i class="fa-solid fa-user fa-xl" style="padding: 10px;"></i>
+                <span style="font-weight: normal;"><%= usuario %></span>
+                <i class="fa-solid fa-caret-down" style="padding: 10px;"></i>
+            </a>
+            <div class="dropdown-menu dropdown-menu-end">
+                <ul>
+                    <li><a href="/tse/newpass">Modificar contraseña</a></li>
+                    <li><a href="/auth/logout">Salir</a></li>
+                </ul>
+            </div>
         </div>
     </div>
 </nav>

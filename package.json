@@ -1,11 +1,11 @@
 {
   "name": "tse",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "",
   "main": "./bundle.js",
   "scripts": {
     "build": "webpack",
-    "start": "npm run build && node ."
+    "start": "npm run build && node bundle.js"
   },
   "keywords": [],
   "author": "",
