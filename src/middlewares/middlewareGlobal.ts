@@ -50,10 +50,6 @@ export const middlewareGlobal: any[] = [
 
     cors(),
 
-    helmet({
-        contentSecurityPolicy: false,
-    }),
-
     compression(),
 
     session(sessionOptions),
