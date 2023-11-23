@@ -16,13 +16,10 @@
                 <ul class="t-tabs">
                     <li class="t-tab"><i class="fa-solid fa-map"></i>&nbsp;&nbsp;&nbsp;Mapa</li> 
                     <li class="t-tab"><i class="fa-solid fa-list"></i>&nbsp;&nbsp;&nbsp;Fichas</li>  
-                    <% if(tipo != 4 && tipo != 1) { %>
+                    <% if(tipo != 4 && tipo != 1 && tipo != 5) { %>
                         <li class="t-tab"><i class="fa-solid fa-plus"></i>&nbsp;&nbsp;&nbsp;Nueva</li> 
                     <% } %>
                     <li class="t-tab"><i class="fa-solid fa-chart-simple"></i>&nbsp;&nbsp;&nbsp;Estadísticas</li>
-                    <% if(tipo != 4) { %>
-                        <li class="t-tab"><i class="fa-solid fa-hand-pointer"></i>&nbsp;&nbsp;&nbsp;Indicadores</li>  
-                    <% } %>
                     <li class="t-tab"><i class="fa-solid fa-circle-info"></i>&nbsp;&nbsp;&nbsp;Info</li>  
                 </ul>
             </div>
@@ -67,20 +64,17 @@
                               <h4 class="titulo">Análisis de datos de gestión</h4>
                               <hr>
                             </div>
-                          </li>
-                          <% if(tipo != 4) { %>
-                          <li class="t-content">
-                            <div class="box-header">
-                              <br>
-                              <h4 class="titulo">Indicadores de gestión</h4>
-                              <hr>
+                            <div class="box-info">
+                                <p>
+                                    <b>Link de acceso:</b>
+                                </p>
+                                <p>
+                                    <a href="http://intranet.incaa.gob.ar/Serveradm/tableros/" target="_blank">http://intranet.incaa.gob.ar/Serveradm/tableros/</a>
+                                </p>
                             </div>
-                            <p style="padding-left: 20px;">Próximamente a desarrollar con cada gerencia.</p>
-                          </li>	
-                          <% } %>
-                          <li class="t-content">
-                            <%- include('../partials/info') %>
-                          </li>
+                        </li>
+                        <li class="t-content">
+                        <%- include('../partials/info') %>
                         </li>
                     </ul>
                 </section>
