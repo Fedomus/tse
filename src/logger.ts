@@ -30,7 +30,7 @@ switch(ENV.NODE_ENV){
             logger = logArchivo
             break;
       default: 
-            logger = logConsola
+            logger = logArchivo
 }
 
 export default logger;
